@@ -1,4 +1,4 @@
 import coloredlogs
 
-coloredlogs.install(level="INFO")
+coloredlogs.install(level="CRITICAL")
  

@@ -1,6 +1,6 @@
 import coloredlogs
 
-coloredlogs.install(level="INFO")
+coloredlogs.install(level="CRITICAL")
 
 # import sys
 # from pathlib import Path

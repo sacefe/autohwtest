@@ -5,7 +5,9 @@ local_info.txt
 config.ini
 tmp/
 temp/
+temp_*.py
 env.sample
+data*
 
 #######################################################################
 # GitHub recomendations

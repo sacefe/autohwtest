@@ -2,15 +2,17 @@ from typing import Optional, Union
 from numbers import Number
 import logging
 from enum import Enum
-from __init__ import *
+from sigfig import round
+
 
 class Status(Enum):
-    waiting= "waiting"
-    running= "running"
-    aborted= "aborted"
-    complete= "complete"
+    waiting = "waiting"
+    running = "running"
+    aborted = "aborted"
+    complete = "complete"
 
-class Test():
+
+class Test:
     """
     The most basic unit of an executing test sequence.
     Within a test, we may have a setup(), execute(), and \
@@ -23,46 +25,46 @@ class Test():
     :param max_value: the maximum value that is to be considered a pass, if defined
     :param pass_if: the value that must be present in order to pass, if defined
     :param loglevel: the logging level to apply such as `logging.INFO`    
-    :param decimal_position: the number of significant decimals appropriate to the measurement
+    :param significant_figures: the number of significant decimals appropriate to the measurement
     """
     def __init__(
-        self, 
+        self,
         nickname: str,
-        pass_if: Optional[Union[str, bool, int]]= None,
-        min_value: Optional[Number]= None,
-        max_value: Optional[Number]= None,
-        decimal_position: Optional[int] = 4,
-        loglevel= logging.INFO,
+        pass_if: Optional[Union[str, bool, int]] = None,
+        min_value: Optional[Number] = None,
+        max_value: Optional[Number] = None,
+        significant_figures: Optional[int] = 4,
+        loglevel = logging.INFO,
         ):
-        self._logger= logging.getLogger(self.__class__.__name__)
+        self._logger = logging.getLogger(self.__class__.__name__)
         self._logger.setLevel(loglevel)
-        
+
         criteria={}
         if pass_if is not None:
-            criteria["pass_if"]= pass_if
+            criteria["pass_if"] = pass_if
         if max_value is not None:
-            criteria["max"]= max_value
+            criteria["max"] = max_value
         if min_value is not None:
-            criteria["min"]= min_value
+            criteria["min"] = min_value
         self.__criteria= criteria if criteria else None
-        self.decimal_position = decimal_position
-                
+        self.significant_figures = significant_figures
+
         self.nickname= nickname
-        self._test_is_passing= None
-        self.test_result= None
-        self.aborted= False 
-        self.status= Status.waiting.value
+        self._test_is_passing = None
+        self.test_result = None
+        self.aborted = False
+        self.status = Status.waiting.value
         self.saved_data = {}
-    
-    #Properties criteria, aborted, is_passing
+
+    # Properties criteria, aborted, is_passing
     @property
     def criteria(self):
         """
         Returns the test criteria as a `dict`
         return: test criteria as a `dict`
-        """        
+        """
         return self.__criteria
-        
+
     @property
     def is_passing(self):
         """
@@ -70,8 +72,8 @@ class Test():
         return: `True` if passing, else `False`
         """
         return self._test_is_passing
-    
-    #Protected methods 
+
+    # Protected methods
     def _teardown(self, is_passing: bool):
         """
         Pre-execution method used for logging and housekeeping.
@@ -89,8 +91,7 @@ class Test():
 
         self.teardown(is_passing)
         self.status = "complete"
-        
-        
+
     def _setup(self, is_passing: bool):
         """
         Pre-execution method used for logging and housekeeping.
@@ -99,35 +100,44 @@ class Test():
         :return:
         """
         try:
-            self._logger.info((f'setting up "{self.nickname}"')) 
-        
-            self._test_is_passing= True
-            self.test_result= None
-            self.status= Status.running.value if not self.aborted else Status.aborted.value
-            
-            self.aborted= False
+            self._logger.info(f'setting up "{self.nickname}"')
+
+            self._test_is_passing = True
+            self.test_result = None
+            self.status = Status.running.value if not self.aborted else Status.aborted.value
+
+            self.aborted = False
             if not self.setup(is_passing=is_passing):
-                self.status= Status.aborted.value    
-            self.status= Status.running.value if not self.aborted else Status.aborted.value
+                self._logger.warning(f'FAIL => setup {self.nickname}!')
+                self.fail()
+            self.status = Status.running.value if not self.aborted else Status.aborted.value
         except Exception as e:
-            self._logger.critical(f"crirtial error {e}") 
-        
-    def _execute(self, is_passing:bool):
+            self._logger.critical(f"critical error {e}")
+
+    def _execute(self, is_passing: bool):
         """
         Pre-execution method used for logging and housekeeping.
 
         :param is_passing: True if the test sequence is passing up to this \
         point, else False
         :return: Test result 
-        """   
-        try:    
+        """
+        try:
             self.status= Status.running.value if not self.status else Status.aborted.value
             if self.aborted:
                 self._logger.info("aborted, not executing")
                 return
             self._logger.info(f'executing test "{self.nickname}"')
-            value= self.execute(is_passing=is_passing)
-            self.test_result= value
+
+            # execute the test and perform appropriate rounding
+            value = self.execute(is_passing=is_passing)
+            if isinstance(value, Number):
+                try:
+                    value = round(value, self.significant_figures)
+                except ValueError:
+                    self._logger.debug(f'could not apply significant digits to "{value}"')
+            self.test_result = value
+
             if self.__criteria is not None:
                 if self.__criteria.get("pass_if") is not None:
                     if self.test_result != self.__criteria["pass_if"]:
@@ -166,13 +176,13 @@ class Test():
                         self._logger.info(
                             f'PASS => "{self.test_result}" is below the maximum '
                             f'"{self.__criteria["max"]}"'
-                        )       
+                        )
             return self.test_result
         except Exception as e:
-            self._logger.critical(f"crirtial error {e}")     
-            
-    #Public methods 
-#TODO
+            self._logger.critical(f"critical error {e}")
+
+    # Public methods
+# TODO
 #    def save_dict(self, data: dict):
 
     def reset(self) -> None:
@@ -180,45 +190,54 @@ class Test():
         Reset the test status
         :return: None
         """
-        self.status= Status.waiting.value        
+        self.status= Status.waiting.value
+
+    def save_dict(self, data: dict):
+        """
+        Allows a test to save additional data other than that returned \
+        by ``execute()``
+
+        :param data: key: value pairs of the data to be stored
+        :return: None
+        """
+        self.saved_data = data.copy()
 
     def abort(self):
         """
         Causes current test status to abort
         :return: True/False
         """
-        self.aborted= True
-    
+        self.aborted = True
+
     def fail(self):
         """
         When called, will cause the test to fail.
         :return: None
-        """        
-        self._test_is_passing= False
+        """
+        self._test_is_passing = False
 
-        
-    #Abstract methods setup(), execute(), and teardown()
-    def setup(self, is_passing:bool):
+    # Abstract methods setup(), execute(), and teardown()
+    def setup(self, is_passing: bool):
         """
         Abstract method intended to be overridden by subclass
 
         :param is_passing: True if the test sequence is passing up to this \
         point, else False
         :return: None
-        """        
+        """
         pass
-    
-    def execute(self, is_passing:bool):
+
+    def execute(self, is_passing: bool):
         """
         Abstract method intended to be overridden by subclass
 
         :param is_passing: True if the test sequence is passing up to this \
         point, else False
         :return: value to be appended to the sequence dictionary
-        """    
+        """
         raise NotImplementedError
-    
-    def teardown(self, is_passing:bool):
+
+    def teardown(self, is_passing: bool):
         """
         Abstract method intended to be overridden by subclass
 
@@ -226,4 +245,4 @@ class Test():
         point, else False
         :return: None
         """
-        pass 
+        pass
