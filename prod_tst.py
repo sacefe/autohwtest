@@ -8,7 +8,6 @@ from inst_uut_tstcases.scope_DS1000Z_sim import ScopeDS1000zSim
 from inst_uut_tstcases.lidar import Lidar
 import configparser
 import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 class TestProd1(Test):
@@ -157,9 +156,9 @@ class ScopeDS1000zMeasPeriod(Test):
 
 
 # config initialization data
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 config = configparser.ConfigParser()
-BASE_DIR = Path(__file__).resolve().parent  # Figures out the absolute path
-initFile = os.path.join(BASE_DIR, 'config.ini')
+initFile = 'config.ini'
 config.read(initFile)
 SIM = True  # False
 args = (config.get('APP', 'VERSION'), SIM)

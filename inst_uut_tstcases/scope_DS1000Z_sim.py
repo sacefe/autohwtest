@@ -36,7 +36,7 @@ class ScopeDS1000zSim:
                  min_value: Optional[Number] = 999,
                  max_value: Optional[Number] = 1001,
                  retries: Optional[int] = 3,
-                 sim_yaml_file: Optional[str] = "inst_uut_tstcases\\sergio_instrument.yaml@sim"
+                 sim_yaml_file: Optional[str] = "inst_uut_tstcases/sergio_instrument.yaml@sim"
                  ):
         self.__logger = logging.getLogger(self.__class__.__name__)
         self.__logger.setLevel(loglevel)

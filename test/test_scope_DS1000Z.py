@@ -5,8 +5,9 @@ import sys
 import os
 
 
+# TODO improve
 BASEDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print(BASEDIR)
+SIM_YAML_FILE=BASEDIR + "/inst_uut_tstcases/sergio_instrument.yaml@sim"
 
 
 class TestScopeDS1000Z:
@@ -16,7 +17,7 @@ class TestScopeDS1000Z:
         return ScopeDS1000zSim(
             ip='172.168.1.139',
             prefix='DS1Z',
-            sim_yaml_file=BASEDIR + "\\inst_uut_tstcases\\sergio_instrument.yaml@sim"
+            sim_yaml_file=SIM_YAML_FILE
         )
 
     def test_get_resource(self, scope_obj):
