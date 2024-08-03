@@ -4,10 +4,7 @@ from inst_uut_tstcases.scope_DS1000Z_sim import ScopeDS1000z, ScopeDS1000zSim
 import sys
 import os
 
-
-# TODO improve
-BASEDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SIM_YAML_FILE=BASEDIR + "/inst_uut_tstcases/sergio_instrument.yaml@sim"
+SIM_YAML_FILE = "sergio_instrument.yaml@sim"
 
 
 class TestScopeDS1000Z:

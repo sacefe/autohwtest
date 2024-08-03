@@ -8,10 +8,6 @@ from typing import Optional
 from numbers import Number
 import pickle
 from seq.tst_case import Test
-import coloredlogs
-
-coloredlogs.install(level="INFO")
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # scope VISA address (when connecting over LAN)
 # lsni -v =>
@@ -24,6 +20,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # print(rm)
 # print(rm.list_resources())
 
+BASEDIR = os.path.dirname(os.path.abspath(__file__)) + '/'
+
 
 class ScopeDS1000zSim:
     """
@@ -31,12 +29,12 @@ class ScopeDS1000zSim:
     """
     def __init__(self, ip: Optional[str] = '172.168.1.139',
                  prefix: Optional[str] = 'DS1Z',
-                 loglevel: Optional[callable] = logging.INFO,
+                 loglevel: Optional[callable] = logging.DEBUG,
                  pass_if: Optional[bool] = True,
                  min_value: Optional[Number] = 999,
                  max_value: Optional[Number] = 1001,
                  retries: Optional[int] = 3,
-                 sim_yaml_file: Optional[str] = "inst_uut_tstcases/sergio_instrument.yaml@sim"
+                 sim_yaml_file: Optional[str] = "sergio_instrument.yaml@sim"
                  ):
         self.__logger = logging.getLogger(self.__class__.__name__)
         self.__logger.setLevel(loglevel)
@@ -46,7 +44,7 @@ class ScopeDS1000zSim:
         self.__instrument = None
         # Other internal private arguments
         self.__deviceConnected = False
-        self.__sim_yaml = sim_yaml_file
+        self.__sim_yaml = BASEDIR + sim_yaml_file
 
     # make setting as need it before execute test
     def __get_resource(self, attempt: Optional[int] = 0) -> bool:

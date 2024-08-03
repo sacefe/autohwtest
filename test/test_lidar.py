@@ -1,17 +1,13 @@
 import os
-import sys
 import pytest
 import configparser
 from inst_uut_tstcases.lidar import Lidar
 
-# TODO improve
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 BASEDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 config = configparser.ConfigParser()
-initFile = BASEDIR + "/config.ini"
-# initFile = "config.ini"
+initFile = BASEDIR + "/examples/testplans/config.ini"
 config.read(initFile)
-print(config.get('APP', 'VERSION'))
 
 SIM = True
 args = (config.get('APP', 'VERSION'), SIM)

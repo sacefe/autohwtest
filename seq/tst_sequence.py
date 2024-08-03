@@ -82,6 +82,7 @@ class TestSequence(Thread):
             "pass": True,
             "failed": [],
         }
+        self.seq_test_results = []
         self._current_test_name = "test-0"
         self._current_test_number = 0
         if self._teardown is not None:
@@ -258,6 +259,7 @@ class TestSequence(Thread):
                 break
             try:
                 test._execute(is_passing=self.is_passing)
+                self.seq_test_results.append(test.seq_test_results)
             except Exception as e:
                 self._logger.critical(f"critical error during execution of  {test} : {e}")
                 self._logger.critical(str(traceback.format_exc()))

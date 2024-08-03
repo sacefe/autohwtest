@@ -10,7 +10,7 @@ class Lidar:
                  # loglevel: Optional[callable]= logging.INFO,
                  *args, **kwargs):
         self.__logger = logging.getLogger(self.__class__.__name__)
-        self.__logger.setLevel(logging.INFO)
+        self.__logger.setLevel(logging.CRITICAL)
         # args values
         self.__simulation = args[0][1]
         # kwargs without default values
@@ -18,8 +18,8 @@ class Lidar:
         #                    kwargs['REGSA'], kwargs['REGSMSSA']]
         self.__regTemp= kwargs['REGTEMPCPU']
         # kwargs with default values
-        default_kwargs = {'WHOIAM':'FALCON',  'HOST': "172.168.1.10", 'PORT': 8001, 'RETRY_ATTEMPTS': 3,
-                         'SOCKET_TIMEOUT': 3, 'LOOP_TIMEOUT': 5}
+        default_kwargs = {'WHOIAM': 'FALCON',  'HOST': "172.168.1.10", 'PORT': 8001, 'RETRY_ATTEMPTS': 3,
+                          'SOCKET_TIMEOUT': 3, 'LOOP_TIMEOUT': 5}
         kwargs = { **default_kwargs, **kwargs }
         self.__host = kwargs['HOST']
         self.__port = kwargs['PORT']

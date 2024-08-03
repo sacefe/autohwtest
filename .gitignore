@@ -2,7 +2,7 @@
 # related to this project
 #######################################################################
 local_info.txt
-config.ini
+examples/testplans/config.ini
 tmp/
 temp/
 temp_*.py

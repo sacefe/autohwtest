@@ -269,11 +269,15 @@ class ArchiveManager:
 
         # write the header string
         if not destination_path.exists():
-            self._logger.info(
-                f'"{destination_path}" does not exist, creating' f" with new heading"
-            )
-            with open(destination_path, "w") as f:
-                f.write(header_string)
+            try:
+                self._logger.info(
+                    f'"{destination_path}" does not exist, creating' f" with new heading"
+                )
+                with open(destination_path, "w") as f:
+                    f.write(header_string)
+            except BaseException as e:
+                self._logger.error("path error to save files <destination_path> ",  e)
+                pass
 
         # write the data string
         self._logger.info(f'appending data: "{data_string.strip()}"')

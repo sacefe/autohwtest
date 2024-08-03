@@ -33,13 +33,13 @@ class Test:
         pass_if: Optional[Union[str, bool, int]] = None,
         min_value: Optional[Number] = None,
         max_value: Optional[Number] = None,
-        significant_figures: Optional[int] = 4,
-        loglevel = logging.INFO,
+        significant_figures: Optional[int] = 1,
+        loglevel: Optional[callable] = logging.INFO
         ):
         self._logger = logging.getLogger(self.__class__.__name__)
         self._logger.setLevel(loglevel)
 
-        criteria={}
+        criteria = {}
         if pass_if is not None:
             criteria["pass_if"] = pass_if
         if max_value is not None:
@@ -52,6 +52,7 @@ class Test:
         self.nickname= nickname
         self._test_is_passing = None
         self.test_result = None
+        self.seq_test_results = {}
         self.aborted = False
         self.status = Status.waiting.value
         self.saved_data = {}
@@ -131,7 +132,7 @@ class Test:
 
             # execute the test and perform appropriate rounding
             value = self.execute(is_passing=is_passing)
-            if isinstance(value, Number):
+            if isinstance(value, Number) and type(value) is float:
                 try:
                     value = round(value, self.significant_figures)
                 except ValueError:
@@ -177,6 +178,9 @@ class Test:
                             f'PASS => "{self.test_result}" is below the maximum '
                             f'"{self.__criteria["max"]}"'
                         )
+            # TODO maybe improve
+            overall = "PASS" if self._test_is_passing else "FAIL"
+            self.seq_test_results= {'TEST': self.nickname, 'VALUE': self.test_result, 'RESULTS': overall}
             return self.test_result
         except Exception as e:
             self._logger.critical(f"critical error {e}")

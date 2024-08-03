@@ -330,7 +330,7 @@ devices:
           max: 100000
           type: float
       period:
-        default: 0.001
+        default: 0.00101
         getter:
           q: ":MEAS:ITEM? PER, CHAN1"
           r: "{:.6f}"
