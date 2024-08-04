@@ -180,7 +180,8 @@ class Test:
                         )
             # TODO maybe improve
             overall = "PASS" if self._test_is_passing else "FAIL"
-            self.seq_test_results= {'TEST': self.nickname, 'VALUE': self.test_result, 'RESULTS': overall}
+            # TODO dict key not dynamic
+            self.seq_test_results= {'TEST_NAME': self.nickname, 'VALUE': self.test_result, 'RESULTS': overall}
             return self.test_result
         except Exception as e:
             self._logger.critical(f"critical error {e}")

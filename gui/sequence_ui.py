@@ -8,10 +8,10 @@ from ui.ui_mainwindow import Ui_MainWindow
 from typing import Optional
 from loader_data import LoaderData
 from loader_widgets import LoaderWidgets
-from seq.tst_sequence import TestSequence, Test, ArchiveManager
-from time import sleep
+from tester import Tester
+#d from seq.tst_sequence import TestSequence, Test, ArchiveManager
+#d from time import sleep
 import importlib
-# from . import *
 
 coloredlogs.install(level="INFO")
 
@@ -135,46 +135,52 @@ class SequenceUI(QMainWindow):
         self.__logger.info("Workorder TBD")
 
     # TODO
-    def __run_sequence(self,
-                       archive_path,
-                       cycles: Optional[int] = 1,):
-        sequence = []
+    def __run_sequence(self):
 
-        # module = importlib.import_module("examples.testplans.halcon_pcb_tp001")
-        mod_path_arr = [self.testplan_name]
-        curr_path = self.testplans_dir
-        while curr_path:
-            curr_path, section = os.path.split(curr_path)
-            if section:
-                mod_path_arr.append(section)
-            else:
-                mod_path_arr.append(curr_path)
-        mod_path_arr.reverse()
-        mod_path = ".".join(mod_path_arr)
-        # ex "examples.testplans.halcon_pcb_tp001"
-        module = importlib.import_module(mod_path)
-        for testModule in self.testplan:
-            # ex class ScopeDS1000sGetResource()
-            test_case = getattr(module, testModule['TEST'])
-            sequence.append(test_case())
+        tester_obj = Tester()
+        updated_test_results = tester_obj.run_all_sequence(
+            testplan_name=self.testplan_name,
+            testplans_dir=self.testplans_dir,
+            testplan=self.testplan
+        )
 
-        if not archive_path:
-            archive_path = '.'
-        am = ArchiveManager(path=archive_path)
+        # sequence = []
 
-        # create the test sequence using the
-        # sequence and archive manager objects from above
-        ts = TestSequence(sequence=sequence,
-                          archive_manager=am,
-                          auto_run=False)
+        # # module = importlib.import_module("examples.testplans.halcon_pcb_tp001")
+        # mod_path_arr = [self.testplan_name]
+        # curr_path = self.testplans_dir
+        # while curr_path:
+        #     curr_path, section = os.path.split(curr_path)
+        #     if section:
+        #         mod_path_arr.append(section)
+        #     else:
+        #         mod_path_arr.append(curr_path)
+        # mod_path_arr.reverse()
+        # mod_path = ".".join(mod_path_arr)
+        # # ex "examples.testplans.halcon_pcb_tp001"
+        # module = importlib.import_module(mod_path)
+        # for testModule in self.testplan:
+        #     # ex class ScopeDS1000sGetResource()
+        #     test_case = getattr(module, testModule['TEST_NAME'])
+        #     sequence.append(test_case())
+        #
+        # if not archive_path:
+        #     archive_path = '.'
+        # am = ArchiveManager(path=archive_path)
+        #
+        # # create the test sequence using the
+        # # sequence and archive manager objects from above
+        # ts = TestSequence(sequence=sequence,
+        #                   archive_manager=am,
+        #                   auto_run=False)
+        #
+        # for x in range(cycles):
+        #     ts.start_tests()
+        #     while (ts.get_state != "complete / ready" and
+        #            ts.get_state != "aborted / ready"):
+        #         sleep(1)
 
-        for x in range(cycles):
-            ts.start_tests()
-            while (ts.get_state != "complete / ready" and
-                   ts.get_state != "aborted / ready"):
-                sleep(1)
-
-        tr = self.ld_data.update_test_exec(self.test_results, ts.seq_test_results)
+        tr = self.ld_data.update_test_exec(self.test_results, updated_test_results)
         self.test_results = tr
         self.update_test_exec_table()
         self.__logger.info(f"Run Sequence results: {self.test_results}")

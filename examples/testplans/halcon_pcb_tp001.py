@@ -212,7 +212,7 @@ class LidarTemperature(Test):
 
     def __init__(self):
         super().__init__(
-            nickname="LidarTemperature",
+            nickname="LidarTemperature",   # TODO  nickname or Test_Name
             min_value=20,
             max_value=70)
         self.lidar_connection = LidarSystem()
