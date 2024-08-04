@@ -136,7 +136,7 @@ class ScopeDS1000zMeasPeriod(Test):
     def __init__(self):
         super().__init__(
             nickname="ScopeDS1000zMeasPeriod",
-            min_value=0.00095,
+            min_value=0.00195,
             max_value=0.00105,
             significant_figures=3
         )
