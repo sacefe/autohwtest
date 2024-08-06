@@ -1,67 +1,9 @@
 import os
-from pathlib import Path
 from time import sleep
 from seq.tst_sequence import TestSequence, Test, ArchiveManager
-from random import choice, random
-# from threading import Thread, Semaphore
 from inst_uut_tstcases.scope_DS1000Z_sim import ScopeDS1000zSim
 from inst_uut_tstcases.lidar import Lidar
 import configparser
-import sys
-
-
-# EXAMPLES START ##############
-# class TestProd1(Test):
-#     """
-#     test example P/F
-#     """
-#
-#     def __init__(self):
-#         super().__init__(
-#             nickname="test_1",
-#             pass_if=True)
-#         return
-#
-#     # make setting as need before execute test
-#     def setup(self, is_passing):
-#         sleep(0.1)
-#         return True
-#
-#     # overriding the execute method
-#     def execute(self, is_passing):
-#         return choice([True] * 3 + [False])
-#
-#     def teardown(self, is_passing):
-#         # again, simulating another long-running process...
-#         sleep(0.1)
-#
-#
-# class TestProd2(Test):
-#     """
-#     test example min/max value
-#     """
-#
-#     def __init__(self):
-#         super().__init__(
-#             nickname="test_2",
-#             min_value=7.2,
-#             max_value=7.8)
-#         return
-#
-#     # make setting as need before execute test
-#     def setup(self, is_passing):
-#         sleep(0.1)
-#         return True
-#
-#     # overriding the execute method
-#     def execute(self, is_passing):
-#         result = 7.5 + random()
-#         return result
-#
-#     def teardown(self, is_passing):
-#         # again, simulating another long-running process...
-#         sleep(0.1)
-# EXAMPLES END ################
 
 
 class ScopeDS1000zInstrument(ScopeDS1000zSim):
@@ -234,7 +176,7 @@ class LidarTemperature(Test):
 
 class LidarGetSN(Test):
     """
-    test case min/max value
+    test case string value
     """
 
     def __init__(self):

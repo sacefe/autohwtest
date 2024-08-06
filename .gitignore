@@ -8,6 +8,7 @@ temp/
 temp_*.py
 env.sample
 data*
+zprac*
 
 #######################################################################
 # GitHub recomendations

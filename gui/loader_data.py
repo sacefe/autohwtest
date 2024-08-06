@@ -39,10 +39,19 @@ class LoaderData:
             test_exec_fp, {'VALUE': ' ', 'RESULTS': ' '})
         return testplan_dict, columns_name_tp
 
-    def update_test_exec(selfself, current_results: list, new_results: list):
+    def update_all_test_exec(selfself,
+                             current_results: list,
+                             new_results: list):
         for i in range(len(current_results)):
             for key in new_results[i].keys():
                 current_results[i][key] = new_results[i][key]
+        return current_results
+
+    def update_test_exec(self, index: int,
+                         current_results: list,
+                         new_result: list):
+        for key in new_result[0].keys():
+            current_results[index][key] = new_result[0][key]
         return current_results
 
     def __reader_csv(self,

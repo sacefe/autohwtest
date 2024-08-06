@@ -17,7 +17,15 @@ class LoaderWidgets:
         self.__logger.setLevel(loglevel)
         # set logger
 
-    def table_loader(self, table, table_data, column_names):
+    def tree_seq_update(self, tree_widget: QTreeWidget, tree_data):
+        tree_widget.setStyleSheet('color: rgb(154, 154, 149)')
+        tree_widget.headerItem().setText(0, "SEQUENCE")
+        # tree_widget.headerItem().setText(1, tree_data)
+        tree_widget.addTopLevelItem(QTreeWidgetItem(0))
+        tree_widget.topLevelItem(0).setText(0, tree_data)
+
+
+    def table_loader(self, table: QTableWidget, table_data, column_names):
         try:
             table.setStyleSheet("background-color: rgb(25, 25, 25); color: rgb(157, 168, 168)")
             table.setColumnCount(len(table_data[0]))

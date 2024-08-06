@@ -9,9 +9,9 @@ from typing import Optional
 from loader_data import LoaderData
 from loader_widgets import LoaderWidgets
 from tester import Tester
-#d from seq.tst_sequence import TestSequence, Test, ArchiveManager
-#d from time import sleep
-import importlib
+from dashboard import Dashboard
+from login import LoginDialog
+from utils import PageNames
 
 coloredlogs.install(level="INFO")
 
@@ -22,6 +22,7 @@ BASE_DIR = (os.path.dirname(os.path.abspath(__file__)))
 
 
 class SequenceUI(QMainWindow):
+
     def __init__(self,
                  testplan_dir,
                  station_fp: Optional[str] = "config/station.csv",
@@ -46,6 +47,9 @@ class SequenceUI(QMainWindow):
             station_fp=station_fp,
             part_numbers_fp=part_numbers_fp,
         )
+        self.dashboard = Dashboard(self.ui)
+        self.page_name = PageNames.testExecute.value
+        self.lw = LoaderWidgets()
         self.testplans_dir = testplan_dir
         self.testplan_fp = ""
         self.test_exec_fp = ""
@@ -56,6 +60,7 @@ class SequenceUI(QMainWindow):
         self.part_numbers = []
         self.load_station()
         self.load_part_numbers()
+        self.ui.Body.setEnabled(False)
 
     """
     beginning of UI code section
@@ -81,7 +86,7 @@ class SequenceUI(QMainWindow):
 
     def __activate_side_nav(self):
         self.ui.btnDashboard.clicked.connect(self.__dashboard)
-        self.ui.btnWorkorder.clicked.connect(self.__work_order)
+        self.ui.btnTestExecute.clicked.connect(self.__execute_test)
 
     def __activate_tst_seq(self):
         self.ui.btnRun.clicked.connect(self.__run_sequence)
@@ -120,7 +125,17 @@ class SequenceUI(QMainWindow):
 
     # TODO
     def __login(self):
-        self.__logger.info("Log-In TBD")
+        dlg_login = LoginDialog(self)
+        # ui = dlg_login. .Ui_Dialog()
+        if dlg_login.exec():
+            if dlg_login.user.text().lower() == "test" and \
+                    dlg_login.password.text().lower() == "password":
+                self.ui.Body.setEnabled(True)
+            self.__logger.info(f"Success! user is: {dlg_login.user.text()} "
+                               f"password is: {dlg_login.password.text()}")
+            self.__logger.info("Success!")
+        else:
+            self.__logger.info("Cancel!")
 
     # TODO
     def __toolbox(self):
@@ -128,26 +143,54 @@ class SequenceUI(QMainWindow):
 
     # TODO
     def __dashboard(self):
+        self.dashboard.activate_page()
         self.__logger.info("Dashboard TBD")
 
-    # TODO
-    def __work_order(self):
-        self.__logger.info("Workorder TBD")
+    def __execute_test(self):
+        self.ui.stackedWidget.setCurrentIndex(self.page_name)
+        self.__logger.info("Execute Test Page")
 
-    # TODO
+    # TODO convert to
     def __run_sequence(self):
+        """
+        run all test cases but individually to have option to abort
+        @return:
+        """
         if self.testplan_name != "" and self.testplan != []:
-            tester_obj = Tester(
-                testplan_name=self.testplan_name,
-                testplans_dir=self.testplans_dir,
-                testplan=self.testplan)
+            try:
+                tester_obj = Tester(
+                    testplan_name=self.testplan_name,
+                    testplans_dir=self.testplans_dir,
+                    testplan=self.testplan)
 
-            updated_test_results = tester_obj.run_all_sequence()
+                table = self.ui.tableTest
+                sequence = tester_obj.get_sequence()
+                for i, testcase in enumerate(sequence):
+                    # QTimer.singleShot(1000, self.__run_sequence)
+                    updated_test_result = tester_obj.run_testcase_sequence([testcase])
+                    tr = self.ld_data.update_test_exec(i, self.test_results, updated_test_result)
+                    self.test_results = tr
+                    self.update_test_exec_table()
+                    self.__logger.info(f"Run Sequence results: {self.test_results}")
+                    table.selectRow(i)
+                    table.viewport().setFocus()
+                    table.viewport().update()
+            except BaseException as e:
+                self.__logger.error(f"an exception occurred during the <__run_sequence>: {e}")
 
-            tr = self.ld_data.update_test_exec(self.test_results, updated_test_results)
-            self.test_results = tr
-            self.update_test_exec_table()
-            self.__logger.info(f"Run Sequence results: {self.test_results}")
+        # # this way run all test cases first and then update table
+        # if self.testplan_name != "" and self.testplan != []:
+        #     tester_obj = Tester(
+        #         testplan_name=self.testplan_name,
+        #         testplans_dir=self.testplans_dir,
+        #         testplan=self.testplan)
+        #     sequence = tester_obj.get_sequence()
+        #     updated_test_results = tester_obj.run_testcase_sequence(sequence)
+        #
+        #     tr = self.ld_data.update_all_test_exec(self.test_results, updated_test_results)
+        #     self.test_results = tr
+        #     self.update_test_exec_table()
+        #     self.__logger.info(f"Run Sequence results: {self.test_results}")
 
     # TODO
     def __stop_sequence(self):
@@ -157,18 +200,37 @@ class SequenceUI(QMainWindow):
     def __pause_sequence(self):
         self.__logger.info("Pause Sequence TBD")
 
-    # TODO
+    # TODO  load sequence when tesplan is loaded or individually each time (save memory)
     def __step_into_sequence(self):
+        """
+        run one test case already selected in the table
+        @return:
+        """
         if self.testplan_name != "" and self.testplan != []:
-            tester_obj = Tester(
-                testplan_name=self.testplan_name,
-                testplans_dir=self.testplans_dir,
-                testplan=self.testplan)
-            updated_test_results = tester_obj.run_all_sequence()
-            tr = self.ld_data.update_test_exec(self.test_results, updated_test_results)
-            self.test_results = tr
-            self.update_test_exec_table()
-            self.__logger.info(f"Run Sequence results: {self.test_results}")
+            try:
+                tester_obj = Tester(
+                    testplan_name=self.testplan_name,
+                    testplans_dir=self.testplans_dir,
+                    testplan=self.testplan)
+
+                table = self.ui.tableTest
+                row = table.currentRow()
+                table.setFocus()
+                if row == -1:
+                    table.selectRow(0)
+                row = table.currentRow()
+                testcase = tester_obj.get_testcase(row)
+                updated_test_result = tester_obj.run_testcase_sequence(testcase)
+                tr = self.ld_data.update_test_exec(row, self.test_results, updated_test_result)
+                self.test_results = tr
+                self.update_test_exec_table()
+                row += 1
+                if row >= len(self.testplan):
+                    row = 0
+                table.selectRow(row)
+                self.__logger.info(f"Run Sequence results: {self.test_results}")
+            except BaseException as e:
+                self.__logger.error(f"an exception occurred during the <__step_into_sequence>: {e}")
 
     # TODO
     def __step_over_sequence(self):
@@ -179,16 +241,18 @@ class SequenceUI(QMainWindow):
         self.__logger.info("Step Out Sequence TBD")
 
     """
+    #####################################
     beginning of App code section
+    #####################################
     """
+
     def load_testplan_table(self):
         try:
             table = self.ui.tableSequence
             table.clear()
             self.testplan = []
             self.testplan, column_names = self.ld_data.get_testplan(self.testplan_fp)
-            lw = LoaderWidgets()
-            lw.table_loader(table, self.testplan, column_names)
+            self.lw.table_loader(table, self.testplan, column_names)
         except BaseException as e:
             self.__logger.error(f"an exception occurred during the <load_testplan_table>: {e}")
 
@@ -197,8 +261,7 @@ class SequenceUI(QMainWindow):
             table = self.ui.tableTest
             table.clear()
             self.test_results, column_names = self.ld_data.get_test_exec(self.test_exec_fp)
-            lw = LoaderWidgets()
-            lw.table_loader(table, self.test_results, column_names)
+            self.lw.table_loader(table, self.test_results, column_names)
         except BaseException as e:
             self.__logger.error(f"an exception occurred during the <load_test_exec_table>: {e}")
 
@@ -207,8 +270,7 @@ class SequenceUI(QMainWindow):
             table = self.ui.tableTest
             table.clear()
             column_names = list(self.test_results[0].keys())
-            lw = LoaderWidgets()
-            lw.table_loader(table, self.test_results, column_names)
+            self.lw.table_loader(table, self.test_results, column_names)
         except BaseException as e:
             self.__logger.error(f"an exception occurred during the <load_test_exec_table>: {e}")
 
@@ -230,7 +292,9 @@ class SequenceUI(QMainWindow):
             self.testplans_dir,
             testplan_fp_abs))
         self.testplan_name = os.path.splitext(testplan_fp_abs)[0]
-        self.test_exec_fp = self.testplan_fp    # TODO perhaps a different file for results vs Testplan?
+        self.lw.tree_seq_update(self.ui.treeSequence,
+                                self.testplan_name)
+        self.test_exec_fp = self.testplan_fp  # TODO perhaps a different file for results vs Testplan?
         self.load_testplan_table()
         self.load_test_exec_table()
 
@@ -240,6 +304,8 @@ class SequenceUI(QMainWindow):
             self.testplans_dir,
             testplan_fp_abs))
         self.testplan_name = os.path.splitext(testplan_fp_abs)[0]
+        self.lw.tree_seq_update(self.ui.treeSequence,
+                                self.testplan_name)
         self.test_exec_fp = self.testplan_fp  # TODO perhaps a different file for results vs Testplan?
         self.load_testplan_table()
         self.load_test_exec_table()
@@ -247,4 +313,13 @@ class SequenceUI(QMainWindow):
     def cm_products_text_changed(self, s):
         self.__logger.info(s)
 
-
+# from examples.testplans.halcon_pcb_tp001 import *
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     window = SequenceUI(
+#         testplan_dir="/home/demo/sacode/autohwtest/examples/testplans",
+#         station_fp="/home/demo/sacode/autohwtest/examples/config/station.csv",
+#         part_numbers_fp="/home/demo/sacode/autohwtest/examples/config/part_numbers.csv",
+#     )
+#     window.show()
+#     sys.exit(app.exec())
