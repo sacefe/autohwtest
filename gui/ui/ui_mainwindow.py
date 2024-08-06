@@ -9,27 +9,27 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-                            QMetaObject, QObject, QPoint, QRect,
-                            QSize, QTime, QUrl, Qt)
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
-                           QCursor, QFont, QFontDatabase, QGradient,
-                           QIcon, QImage, QKeySequence, QLinearGradient,
-                           QPainter, QPalette, QPixmap, QRadialGradient,
-                           QTransform)
+    QCursor, QFont, QFontDatabase, QGradient,
+    QIcon, QImage, QKeySequence, QLinearGradient,
+    QPainter, QPalette, QPixmap, QRadialGradient,
+    QTransform)
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QColumnView, QComboBox,
-                               QFrame, QHBoxLayout, QHeaderView, QLabel,
-                               QMainWindow, QPushButton, QScrollArea, QSizePolicy,
-                               QSpacerItem, QStackedWidget, QStatusBar, QTabWidget,
-                               QTableWidget, QTableWidgetItem, QTreeWidget, QTreeWidgetItem,
-                               QVBoxLayout, QWidget)
+    QFrame, QHBoxLayout, QHeaderView, QLabel,
+    QMainWindow, QPushButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QStackedWidget, QStatusBar, QTabWidget,
+    QTableWidget, QTableWidgetItem, QTreeWidget, QTreeWidgetItem,
+    QVBoxLayout, QWidget)
 import rc_resources
 from typing import Optional
 import os
 STATICS_DIR = (os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    os.path.dirname(os.path.abspath(__file__)),
     "statics"))
 ICONS_DIR = (os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    os.path.dirname(os.path.abspath(__file__)),
     "statics",
     "icons"))
 
@@ -44,6 +44,7 @@ class Ui_MainWindow(object):
         # ICONS Dynamic location
         self.icons8_menu = os.path.join(self.icons_dir, "icons8_menu.svg")
         self.icons8_account_1 = os.path.join(self.icons_dir, "icons8_account_1.svg")
+        self.icons8_maintenance_2 = os.path.join(self.icons_dir, "icons8_maintenance_2.svg")
         self.icons8_alarm = os.path.join(self.icons_dir, "icons8_alarm.svg")
         self.icons8_minus = os.path.join(self.icons_dir, "icons8_minus.svg")
         self.icons8_collapse_arrow_up = os.path.join(self.icons_dir, "icons8_collapse_arrow_up.svg")
@@ -51,12 +52,12 @@ class Ui_MainWindow(object):
         self.icons8_keypad = os.path.join(self.icons_dir, "icons8_keypad.svg")
         self.icons8_todo_list = os.path.join(self.icons_dir, "icons8_todo_list.svg")
         self.icons8_logout_rounded_down = os.path.join(self.icons_dir, "icons8_logout_rounded_down.svg")
-        self.icons8_play_48 = os.path.join(self.icons_dir, "icons8-play-48.png")
-        self.icons8_stop_circled_48 = os.path.join(self.icons_dir, "icons8-stop-circled-48.png")
-        self.icons8_pause_button_48 = os.path.join(self.icons_dir, "icons8-pause-button-48.png")
-        self.icons8_step_into_48 = os.path.join(self.icons_dir, "icons8-step-into-48.png")
-        self.icons8_step_over_48 = os.path.join(self.icons_dir, "icons8-step-over-48.png")
-        self.icons8_step_out_48 = os.path.join(self.icons_dir, "icons8-step-out-48.png")
+        self.icons8_play_48 = os.path.join(self.icons_dir, "icons8_play_48.png")
+        self.icons8_stop_circled_48 = os.path.join(self.icons_dir, "icons8_stop_circled_48.png")
+        self.icons8_pause_button_48 = os.path.join(self.icons_dir, "icons8_pause_button_48.png")
+        self.icons8_step_into_48 = os.path.join(self.icons_dir, "icons8_step_into_48.png")
+        self.icons8_step_over_48 = os.path.join(self.icons_dir, "icons8_step_over_48.png")
+        self.icons8_step_out_48 = os.path.join(self.icons_dir, "icons8_step_out_48.png")
 
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -101,18 +102,18 @@ class Ui_MainWindow(object):
         self.btnHamburger.setSizeIncrement(QSize(0, 0))
         self.btnHamburger.setBaseSize(QSize(0, 0))
         self.btnHamburger.setStyleSheet(u"QPushButton {\n"
-                                        "	border: none;\n"
-                                        "	background-color: rgb(0, 0, 0);\n"
-                                        "	border-left: 3px solid rgb(0, 0, 0);\n"
-                                        "}\n"
-                                        "\n"
-                                        "QPushButton:hover {\n"
-                                        "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                        "}\n"
-                                        "\n"
-                                        "QPushButton:pressed {\n"
-                                        "	background-color: rgb(25, 25, 25);\n"
-                                        "}")
+"	border: none;\n"
+"	background-color: rgb(0, 0, 0);\n"
+"	border-left: 3px solid rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"	background-color: rgb(25, 25, 25);\n"
+"}")
         icon = QIcon()
         icon.addFile(self.icons8_menu, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnHamburger.setIcon(icon)
@@ -154,31 +155,31 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.setSpacing(5)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.horizontalLayout_5.setContentsMargins(0, 0, 20, 0)
-        self.btnToolbox = QPushButton(self.UserFrame)
-        self.btnToolbox.setObjectName(u"btnToolbox")
-        icon1 = QIcon()
-        icon1.addFile(self.icons8_account_1, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon1.addFile(f"{self.icons_dir}icons8_account_1.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnToolbox.setIcon(icon1)
-        self.btnToolbox.setIconSize(QSize(20, 20))
-
-        self.horizontalLayout_5.addWidget(self.btnToolbox)
-
         self.btnLogin = QPushButton(self.UserFrame)
         self.btnLogin.setObjectName(u"btnLogin")
+        icon1 = QIcon()
+        icon1.addFile(self.icons8_account_1, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnLogin.setIcon(icon1)
         self.btnLogin.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_5.addWidget(self.btnLogin)
 
+        self.btnToolbox = QPushButton(self.UserFrame)
+        self.btnToolbox.setObjectName(u"btnToolbox")
+        icon2 = QIcon()
+        icon2.addFile(self.icons8_maintenance_2, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnToolbox.setIcon(icon2)
+        self.btnToolbox.setIconSize(QSize(20, 20))
+
+        self.horizontalLayout_5.addWidget(self.btnToolbox)
+
         self.btnAlarm = QPushButton(self.UserFrame)
         self.btnAlarm.setObjectName(u"btnAlarm")
         self.btnAlarm.setMinimumSize(QSize(30, 30))
         self.btnAlarm.setMaximumSize(QSize(30, 30))
-        icon2 = QIcon()
-        icon2.addFile(self.icons8_alarm, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon2.addFile(f"{self.icons_dir}icons8_alarm.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnAlarm.setIcon(icon2)
+        icon3 = QIcon()
+        icon3.addFile(self.icons8_alarm, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnAlarm.setIcon(icon3)
         self.btnAlarm.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_5.addWidget(self.btnAlarm)
@@ -203,10 +204,9 @@ class Ui_MainWindow(object):
         self.btnMin.setObjectName(u"btnMin")
         self.btnMin.setMinimumSize(QSize(30, 30))
         self.btnMin.setMaximumSize(QSize(30, 30))
-        icon3 = QIcon()
-        icon3.addFile(self.icons8_minus, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon3.addFile(f"{self.icons_dir}icons8_minus.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnMin.setIcon(icon3)
+        icon4 = QIcon()
+        icon4.addFile(self.icons8_minus, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnMin.setIcon(icon4)
         self.btnMin.setIconSize(QSize(30, 30))
 
         self.horizontalLayout_8.addWidget(self.btnMin)
@@ -215,10 +215,9 @@ class Ui_MainWindow(object):
         self.btnMax.setObjectName(u"btnMax")
         self.btnMax.setMinimumSize(QSize(30, 20))
         self.btnMax.setMaximumSize(QSize(30, 30))
-        icon4 = QIcon()
-        icon4.addFile(self.icons8_collapse_arrow_up, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon4.addFile(f"{self.icons_dir}icons8_collapse_arrow_up.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnMax.setIcon(icon4)
+        icon5 = QIcon()
+        icon5.addFile(self.icons8_collapse_arrow_up, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnMax.setIcon(icon5)
         self.btnMax.setIconSize(QSize(30, 30))
 
         self.horizontalLayout_8.addWidget(self.btnMax)
@@ -227,10 +226,9 @@ class Ui_MainWindow(object):
         self.btnClose.setObjectName(u"btnClose")
         self.btnClose.setMinimumSize(QSize(40, 30))
         self.btnClose.setMaximumSize(QSize(40, 30))
-        icon5 = QIcon()
-        icon5.addFile(self.icons8_multiply, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon5.addFile(f"{self.icons_dir}icons8_multiply.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnClose.setIcon(icon5)
+        icon6 = QIcon()
+        icon6.addFile(self.icons8_multiply, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnClose.setIcon(icon6)
         self.btnClose.setIconSize(QSize(30, 30))
 
         self.horizontalLayout_8.addWidget(self.btnClose)
@@ -277,7 +275,7 @@ class Ui_MainWindow(object):
         self.lblStation = QLabel(self.frame_A)
         self.lblStation.setObjectName(u"lblStation")
         self.lblStation.setStyleSheet(u"color: rgb(154, 154, 149);\n"
-                                      "font: 700 italic 12pt \"Ubuntu\";")
+"font: 700 italic 12pt \"Ubuntu\";")
         self.lblStation.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_2.addWidget(self.lblStation)
@@ -295,63 +293,61 @@ class Ui_MainWindow(object):
         font.setBold(False)
         self.btnDashboard.setFont(font)
         self.btnDashboard.setStyleSheet(u"QPushButton {\n"
-                                        "	background-color: rgb(25, 25, 25);\n"
-                                        "	color: rgb(154, 154, 149);\n"
-                                        "	border: none;\n"
-                                        "	border-left: 3px solid rgb(25, 25, 25);\n"
-                                        "	text-align: left;\n"
-                                        "	padding-left: 10px;\n"
-                                        "}\n"
-                                        "\n"
-                                        "QPushButton:hover {\n"
-                                        "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                        "	background-color: rgb(18, 18, 18);\n"
-                                        "}\n"
-                                        "\n"
-                                        "QPushButton:pressed {\n"
-                                        "	background-color: rgb(0, 0, 0);\n"
-                                        "}\n"
-                                        "\n"
-                                        "")
-        icon6 = QIcon()
-        icon6.addFile(self.icons8_keypad, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon6.addFile(f"{self.icons_dir}icons8_keypad.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnDashboard.setIcon(icon6)
+"	background-color: rgb(25, 25, 25);\n"
+"	color: rgb(154, 154, 149);\n"
+"	border: none;\n"
+"	border-left: 3px solid rgb(25, 25, 25);\n"
+"	text-align: left;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"	background-color: rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"	background-color: rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"")
+        icon7 = QIcon()
+        icon7.addFile(self.icons8_keypad, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnDashboard.setIcon(icon7)
         self.btnDashboard.setIconSize(QSize(25, 25))
 
         self.verticalLayout_2.addWidget(self.btnDashboard)
 
-        self.btnWorkorder = QPushButton(self.frame_A)
-        self.btnWorkorder.setObjectName(u"btnWorkorder")
-        self.btnWorkorder.setMinimumSize(QSize(200, 45))
-        self.btnWorkorder.setMaximumSize(QSize(200, 45))
-        self.btnWorkorder.setFont(font)
-        self.btnWorkorder.setStyleSheet(u"QPushButton {\n"
-                                        "	background-color: rgb(25, 25, 25);\n"
-                                        "	color: rgb(154, 154, 149);\n"
-                                        "	border: none;\n"
-                                        "	border-left: 3px solid rgb(25, 25, 25);\n"
-                                        "	text-align: left;\n"
-                                        "	padding-left: 10px;\n"
-                                        "}\n"
-                                        "\n"
-                                        "QPushButton:hover {\n"
-                                        "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                        "	background-color: rgb(18, 18, 18);\n"
-                                        "}\n"
-                                        "\n"
-                                        "QPushButton:pressed {\n"
-                                        "	background-color: rgb(0, 0, 0);\n"
-                                        "}\n"
-                                        "\n"
-                                        "")
-        icon7 = QIcon()
-        icon7.addFile(self.icons8_todo_list, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon7.addFile(f"{self.icons_dir}icons8_todo_list.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnWorkorder.setIcon(icon7)
-        self.btnWorkorder.setIconSize(QSize(25, 25))
+        self.btnTestExecute = QPushButton(self.frame_A)
+        self.btnTestExecute.setObjectName(u"btnTestExecute")
+        self.btnTestExecute.setMinimumSize(QSize(200, 45))
+        self.btnTestExecute.setMaximumSize(QSize(200, 45))
+        self.btnTestExecute.setFont(font)
+        self.btnTestExecute.setStyleSheet(u"QPushButton {\n"
+"	background-color: rgb(25, 25, 25);\n"
+"	color: rgb(154, 154, 149);\n"
+"	border: none;\n"
+"	border-left: 3px solid rgb(25, 25, 25);\n"
+"	text-align: left;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"	background-color: rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"	background-color: rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"")
+        icon8 = QIcon()
+        icon8.addFile(self.icons8_todo_list, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnTestExecute.setIcon(icon8)
+        self.btnTestExecute.setIconSize(QSize(25, 25))
 
-        self.verticalLayout_2.addWidget(self.btnWorkorder)
+        self.verticalLayout_2.addWidget(self.btnTestExecute)
 
         self.comboBoxProducts = QComboBox(self.frame_A)
         self.comboBoxProducts.setObjectName(u"comboBoxProducts")
@@ -425,28 +421,27 @@ class Ui_MainWindow(object):
         self.btnSignout.setMinimumSize(QSize(200, 45))
         self.btnSignout.setMaximumSize(QSize(200, 45))
         self.btnSignout.setStyleSheet(u"QPushButton {\n"
-                                      "	background-color: rgb(25, 25, 25);\n"
-                                      "	color: rgb(204, 204, 204);\n"
-                                      "	border: none;\n"
-                                      "	border-left: 3px solid rgb(25, 25, 25);\n"
-                                      "	text-align: left;\n"
-                                      "	padding-left: 10px;\n"
-                                      "}\n"
-                                      "\n"
-                                      "QPushButton:hover {\n"
-                                      "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                      "	background-color: rgb(18, 18, 18);\n"
-                                      "}\n"
-                                      "\n"
-                                      "QPushButton:pressed {\n"
-                                      "	background-color: rgb(0, 0, 0);\n"
-                                      "}\n"
-                                      "\n"
-                                      "")
-        icon8 = QIcon()
-        icon8.addFile(self.icons8_logout_rounded_down, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon8.addFile(f"{self.icons_dir}icons8_logout_rounded_down.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnSignout.setIcon(icon8)
+"	background-color: rgb(25, 25, 25);\n"
+"	color: rgb(204, 204, 204);\n"
+"	border: none;\n"
+"	border-left: 3px solid rgb(25, 25, 25);\n"
+"	text-align: left;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"	background-color: rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"	background-color: rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"")
+        icon9 = QIcon()
+        icon9.addFile(self.icons8_logout_rounded_down, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnSignout.setIcon(icon9)
         self.btnSignout.setIconSize(QSize(30, 30))
 
         self.verticalLayout_5.addWidget(self.btnSignout)
@@ -477,15 +472,15 @@ class Ui_MainWindow(object):
         self.stackedWidget = QStackedWidget(self.frame)
         self.stackedWidget.setObjectName(u"stackedWidget")
         self.stackedWidget.setLineWidth(0)
-        self.page_5 = QWidget()
-        self.page_5.setObjectName(u"page_5")
-        self.page_5.setMinimumSize(QSize(0, 0))
-        self.page_5.setStyleSheet(u"background-color: rgb(22, 22, 22);")
-        self.verticalLayout_11 = QVBoxLayout(self.page_5)
+        self.page_TestExecute = QWidget()
+        self.page_TestExecute.setObjectName(u"page_TestExecute")
+        self.page_TestExecute.setMinimumSize(QSize(0, 0))
+        self.page_TestExecute.setStyleSheet(u"background-color: rgb(22, 22, 22);")
+        self.verticalLayout_11 = QVBoxLayout(self.page_TestExecute)
         self.verticalLayout_11.setSpacing(1)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.verticalLayout_11.setContentsMargins(2, 2, 2, 2)
-        self.frame_4 = QFrame(self.page_5)
+        self.frame_4 = QFrame(self.page_TestExecute)
         self.frame_4.setObjectName(u"frame_4")
         self.frame_4.setMinimumSize(QSize(0, 0))
         self.verticalLayout_9 = QVBoxLayout(self.frame_4)
@@ -514,47 +509,47 @@ class Ui_MainWindow(object):
         palette.setBrush(QPalette.Active, QPalette.Window, brush1)
         brush2 = QBrush(QColor(154, 154, 149, 128))
         brush2.setStyle(Qt.SolidPattern)
-        #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
         palette.setBrush(QPalette.Active, QPalette.PlaceholderText, brush2)
-        #endif
+#endif
         palette.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
         palette.setBrush(QPalette.Inactive, QPalette.Button, brush1)
         palette.setBrush(QPalette.Inactive, QPalette.Text, brush)
         palette.setBrush(QPalette.Inactive, QPalette.ButtonText, brush)
         palette.setBrush(QPalette.Inactive, QPalette.Base, brush1)
         palette.setBrush(QPalette.Inactive, QPalette.Window, brush1)
-        #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
         palette.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush2)
-        #endif
+#endif
         palette.setBrush(QPalette.Disabled, QPalette.WindowText, brush)
         palette.setBrush(QPalette.Disabled, QPalette.Button, brush1)
         palette.setBrush(QPalette.Disabled, QPalette.Text, brush)
         palette.setBrush(QPalette.Disabled, QPalette.ButtonText, brush)
         palette.setBrush(QPalette.Disabled, QPalette.Base, brush1)
         palette.setBrush(QPalette.Disabled, QPalette.Window, brush1)
-        #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
         palette.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush2)
-        #endif
+#endif
         self.sequence.setPalette(palette)
         self.sequence.setStyleSheet(u"QTabWidget {\n"
-                                    "	background-color: rgb(25, 25, 25);\n"
-                                    "	color: rgb(255, 255, 255)\n"
-                                    "	border: none;\n"
-                                    "	border-left: 3px solid rgb(25, 25, 25);\n"
-                                    "	text-align: left;\n"
-                                    "	padding-left: 10px;\n"
-                                    "}\n"
-                                    "\n"
-                                    "QTabWidget:hover {\n"
-                                    "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                    "	background-color: rgb(18, 18, 18);\n"
-                                    "}\n"
-                                    "\n"
-                                    "QTabWidget:pressed {\n"
-                                    "	background-color: rgb(0, 0, 0);\n"
-                                    "}\n"
-                                    "\n"
-                                    "")
+"	background-color: rgb(25, 25, 25);\n"
+"	color: rgb(255, 255, 255)\n"
+"	border: none;\n"
+"	border-left: 3px solid rgb(25, 25, 25);\n"
+"	text-align: left;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"\n"
+"QTabWidget:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"	background-color: rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QTabWidget:pressed {\n"
+"	background-color: rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"")
         self.verticalLayout_12 = QVBoxLayout(self.sequence)
         self.verticalLayout_12.setSpacing(1)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
@@ -609,24 +604,24 @@ class Ui_MainWindow(object):
         self.specs = QWidget()
         self.specs.setObjectName(u"specs")
         self.specs.setStyleSheet(u"QTabWidget {\n"
-                                 "	background-color: rgb(25, 25, 25);\n"
-                                 "	color: rgb(255, 255, 255)\n"
-                                 "	border: none;\n"
-                                 "	border-left: 3px solid rgb(25, 25, 25);\n"
-                                 "	text-align: left;\n"
-                                 "	padding-left: 10px;\n"
-                                 "}\n"
-                                 "\n"
-                                 "QTabWidget:hover {\n"
-                                 "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                 "	background-color: rgb(18, 18, 18);\n"
-                                 "}\n"
-                                 "\n"
-                                 "QTabWidget:pressed {\n"
-                                 "	background-color: rgb(0, 0, 0);\n"
-                                 "}\n"
-                                 "\n"
-                                 "")
+"	background-color: rgb(25, 25, 25);\n"
+"	color: rgb(255, 255, 255)\n"
+"	border: none;\n"
+"	border-left: 3px solid rgb(25, 25, 25);\n"
+"	text-align: left;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"\n"
+"QTabWidget:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"	background-color: rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QTabWidget:pressed {\n"
+"	background-color: rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"")
         self.tabStepSettings_2.addTab(self.specs, "")
 
         self.horizontalLayout_10.addWidget(self.tabStepSettings_2)
@@ -667,28 +662,27 @@ class Ui_MainWindow(object):
         self.btnRun.setMinimumSize(QSize(0, 20))
         self.btnRun.setMaximumSize(QSize(45, 20))
         self.btnRun.setStyleSheet(u"QPushButton {\n"
-                                  "	background-color: rgb(35, 35, 35);\n"
-                                  "	color: rgb(154, 154, 149);\n"
-                                  "	border: none;\n"
-                                  "	border-left: 3px solid rgb(25, 25, 25);\n"
-                                  "	text-align: left;\n"
-                                  "	padding-left: 10px;\n"
-                                  "}\n"
-                                  "\n"
-                                  "QPushButton:hover {\n"
-                                  "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                  "	background-color: rgb(18, 18, 18);\n"
-                                  "}\n"
-                                  "\n"
-                                  "QPushButton:pressed {\n"
-                                  "	background-color: rgb(0, 0, 0);\n"
-                                  "}\n"
-                                  "\n"
-                                  "")
-        icon9 = QIcon()
-        icon9.addFile(self.icons8_play_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon9.addFile(f"{self.icons_dir}/icons8-play-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnRun.setIcon(icon9)
+"	background-color: rgb(35, 35, 35);\n"
+"	color: rgb(154, 154, 149);\n"
+"	border: none;\n"
+"	border-left: 3px solid rgb(25, 25, 25);\n"
+"	text-align: left;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"	background-color: rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"	background-color: rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"")
+        icon10 = QIcon()
+        icon10.addFile(self.icons8_play_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnRun.setIcon(icon10)
         self.btnRun.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_4.addWidget(self.btnRun)
@@ -698,28 +692,27 @@ class Ui_MainWindow(object):
         self.btnStop.setMinimumSize(QSize(0, 20))
         self.btnStop.setMaximumSize(QSize(45, 20))
         self.btnStop.setStyleSheet(u"QPushButton {\n"
-                                   "	background-color: rgb(35, 35, 35);\n"
-                                   "	color: rgb(154, 154, 149);\n"
-                                   "	border: none;\n"
-                                   "	border-left: 3px solid rgb(25, 25, 25);\n"
-                                   "	text-align: left;\n"
-                                   "	padding-left: 10px;\n"
-                                   "}\n"
-                                   "\n"
-                                   "QPushButton:hover {\n"
-                                   "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                   "	background-color: rgb(18, 18, 18);\n"
-                                   "}\n"
-                                   "\n"
-                                   "QPushButton:pressed {\n"
-                                   "	background-color: rgb(0, 0, 0);\n"
-                                   "}\n"
-                                   "\n"
-                                   "")
-        icon10 = QIcon()
-        icon10.addFile(self.icons8_stop_circled_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon10.addFile(f"{self.icons_dir}/icons8-stop-circled-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnStop.setIcon(icon10)
+"	background-color: rgb(35, 35, 35);\n"
+"	color: rgb(154, 154, 149);\n"
+"	border: none;\n"
+"	border-left: 3px solid rgb(25, 25, 25);\n"
+"	text-align: left;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"	background-color: rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"	background-color: rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"")
+        icon11 = QIcon()
+        icon11.addFile(self.icons8_stop_circled_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnStop.setIcon(icon11)
         self.btnStop.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_4.addWidget(self.btnStop)
@@ -729,28 +722,27 @@ class Ui_MainWindow(object):
         self.btnPause.setMinimumSize(QSize(0, 20))
         self.btnPause.setMaximumSize(QSize(45, 20))
         self.btnPause.setStyleSheet(u"QPushButton {\n"
-                                    "	background-color: rgb(35, 35, 35);\n"
-                                    "	color: rgb(154, 154, 149);\n"
-                                    "	border: none;\n"
-                                    "	border-left: 3px solid rgb(25, 25, 25);\n"
-                                    "	text-align: left;\n"
-                                    "	padding-left: 10px;\n"
-                                    "}\n"
-                                    "\n"
-                                    "QPushButton:hover {\n"
-                                    "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                    "	background-color: rgb(18, 18, 18);\n"
-                                    "}\n"
-                                    "\n"
-                                    "QPushButton:pressed {\n"
-                                    "	background-color: rgb(0, 0, 0);\n"
-                                    "}\n"
-                                    "\n"
-                                    "")
-        icon11 = QIcon()
-        icon11.addFile(self.icons8_pause_button_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon11.addFile(f"{self.icons_dir}/icons8-pause-button-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnPause.setIcon(icon11)
+"	background-color: rgb(35, 35, 35);\n"
+"	color: rgb(154, 154, 149);\n"
+"	border: none;\n"
+"	border-left: 3px solid rgb(25, 25, 25);\n"
+"	text-align: left;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"	background-color: rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"	background-color: rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"")
+        icon12 = QIcon()
+        icon12.addFile(self.icons8_pause_button_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnPause.setIcon(icon12)
         self.btnPause.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_4.addWidget(self.btnPause)
@@ -760,28 +752,27 @@ class Ui_MainWindow(object):
         self.btnStepInto.setMinimumSize(QSize(0, 20))
         self.btnStepInto.setMaximumSize(QSize(45, 20))
         self.btnStepInto.setStyleSheet(u"QPushButton {\n"
-                                       "	background-color: rgb(35, 35, 35);\n"
-                                       "	color: rgb(154, 154, 149);\n"
-                                       "	border: none;\n"
-                                       "	border-left: 3px solid rgb(25, 25, 25);\n"
-                                       "	text-align: left;\n"
-                                       "	padding-left: 10px;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:hover {\n"
-                                       "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                       "	background-color: rgb(18, 18, 18);\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:pressed {\n"
-                                       "	background-color: rgb(0, 0, 0);\n"
-                                       "}\n"
-                                       "\n"
-                                       "")
-        icon12 = QIcon()
-        icon12.addFile(self.icons8_step_into_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon12.addFile(f"{self.icons_dir}/icons8-step-into-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnStepInto.setIcon(icon12)
+"	background-color: rgb(35, 35, 35);\n"
+"	color: rgb(154, 154, 149);\n"
+"	border: none;\n"
+"	border-left: 3px solid rgb(25, 25, 25);\n"
+"	text-align: left;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"	background-color: rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"	background-color: rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"")
+        icon13 = QIcon()
+        icon13.addFile(self.icons8_step_into_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnStepInto.setIcon(icon13)
         self.btnStepInto.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_4.addWidget(self.btnStepInto)
@@ -791,28 +782,27 @@ class Ui_MainWindow(object):
         self.btnStepOver.setMinimumSize(QSize(0, 20))
         self.btnStepOver.setMaximumSize(QSize(45, 20))
         self.btnStepOver.setStyleSheet(u"QPushButton {\n"
-                                       "	background-color: rgb(35, 35, 35);\n"
-                                       "	color: rgb(154, 154, 149);\n"
-                                       "	border: none;\n"
-                                       "	border-left: 3px solid rgb(25, 25, 25);\n"
-                                       "	text-align: left;\n"
-                                       "	padding-left: 10px;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:hover {\n"
-                                       "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                       "	background-color: rgb(18, 18, 18);\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:pressed {\n"
-                                       "	background-color: rgb(0, 0, 0);\n"
-                                       "}\n"
-                                       "\n"
-                                       "")
-        icon13 = QIcon()
-        icon13.addFile(self.icons8_step_over_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon13.addFile(f"{self.icons_dir}/icons8-step-over-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnStepOver.setIcon(icon13)
+"	background-color: rgb(35, 35, 35);\n"
+"	color: rgb(154, 154, 149);\n"
+"	border: none;\n"
+"	border-left: 3px solid rgb(25, 25, 25);\n"
+"	text-align: left;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"	background-color: rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"	background-color: rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"")
+        icon14 = QIcon()
+        icon14.addFile(self.icons8_step_over_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnStepOver.setIcon(icon14)
         self.btnStepOver.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_4.addWidget(self.btnStepOver)
@@ -822,28 +812,27 @@ class Ui_MainWindow(object):
         self.btnStepOut.setMinimumSize(QSize(0, 20))
         self.btnStepOut.setMaximumSize(QSize(45, 20))
         self.btnStepOut.setStyleSheet(u"QPushButton {\n"
-                                      "	background-color: rgb(35, 35, 35);\n"
-                                      "	color: rgb(154, 154, 149);\n"
-                                      "	border: none;\n"
-                                      "	border-left: 3px solid rgb(25, 25, 25);\n"
-                                      "	text-align: left;\n"
-                                      "	padding-left: 10px;\n"
-                                      "}\n"
-                                      "\n"
-                                      "QPushButton:hover {\n"
-                                      "	border-left: 3px solid rgb(255, 85, 0);\n"
-                                      "	background-color: rgb(18, 18, 18);\n"
-                                      "}\n"
-                                      "\n"
-                                      "QPushButton:pressed {\n"
-                                      "	background-color: rgb(0, 0, 0);\n"
-                                      "}\n"
-                                      "\n"
-                                      "")
-        icon14 = QIcon()
-        icon14.addFile(self.icons8_step_out_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        # icon14.addFile(f"{self.icons_dir}/icons8-step-out-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnStepOut.setIcon(icon14)
+"	background-color: rgb(35, 35, 35);\n"
+"	color: rgb(154, 154, 149);\n"
+"	border: none;\n"
+"	border-left: 3px solid rgb(25, 25, 25);\n"
+"	text-align: left;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	border-left: 3px solid rgb(255, 85, 0);\n"
+"	background-color: rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"	background-color: rgb(0, 0, 0);\n"
+"}\n"
+"\n"
+"")
+        icon15 = QIcon()
+        icon15.addFile(self.icons8_step_out_48, QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnStepOut.setIcon(icon15)
         self.btnStepOut.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_4.addWidget(self.btnStepOut)
@@ -930,10 +919,25 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_11.addWidget(self.frame_4)
 
-        self.stackedWidget.addWidget(self.page_5)
-        self.page_6 = QWidget()
-        self.page_6.setObjectName(u"page_6")
-        self.stackedWidget.addWidget(self.page_6)
+        self.stackedWidget.addWidget(self.page_TestExecute)
+        self.page_DashBoard = QWidget()
+        self.page_DashBoard.setObjectName(u"page_DashBoard")
+        self.frame_3 = QFrame(self.page_DashBoard)
+        self.frame_3.setObjectName(u"frame_3")
+        self.frame_3.setGeometry(QRect(170, 240, 291, 37))
+        self.frame_3.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_15 = QVBoxLayout(self.frame_3)
+        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
+        self.lblDashboard_TBD = QLabel(self.frame_3)
+        self.lblDashboard_TBD.setObjectName(u"lblDashboard_TBD")
+        self.lblDashboard_TBD.setMinimumSize(QSize(34, 18))
+        self.lblDashboard_TBD.setStyleSheet(u"color: rgb(52, 101, 164);\n"
+"font: 700 italic 20pt \"Ubuntu Mono\";")
+
+        self.verticalLayout_15.addWidget(self.lblDashboard_TBD)
+
+        self.stackedWidget.addWidget(self.page_DashBoard)
         self.page_7 = QWidget()
         self.page_7.setObjectName(u"page_7")
         self.stackedWidget.addWidget(self.page_7)
@@ -972,15 +976,15 @@ class Ui_MainWindow(object):
         self.actionsign_out.setText(QCoreApplication.translate("MainWindow", u"sign out", None))
         self.btnHamburger.setText("")
         self.lblTestSeq.setText(QCoreApplication.translate("MainWindow", u"Test Sequence", None))
-        self.btnToolbox.setText("")
         self.btnLogin.setText("")
+        self.btnToolbox.setText("")
         self.btnAlarm.setText("")
         self.btnMin.setText("")
         self.btnMax.setText("")
         self.btnClose.setText("")
         self.lblStation.setText(QCoreApplication.translate("MainWindow", u"lblStation", None))
         self.btnDashboard.setText(QCoreApplication.translate("MainWindow", u" Dashboard", None))
-        self.btnWorkorder.setText(QCoreApplication.translate("MainWindow", u" Work Order", None))
+        self.btnTestExecute.setText(QCoreApplication.translate("MainWindow", u"Test Execute", None))
         self.btnSignout.setText(QCoreApplication.translate("MainWindow", u"Signout", None))
         self.tabStepSettings_2.setTabText(self.tabStepSettings_2.indexOf(self.setup), QCoreApplication.translate("MainWindow", u"Setup", None))
         self.tabStepSettings_2.setTabText(self.tabStepSettings_2.indexOf(self.specs), QCoreApplication.translate("MainWindow", u"Specs", None))
@@ -993,5 +997,6 @@ class Ui_MainWindow(object):
         self.btnStepOut.setText("")
         self.tabStepSequence_3.setTabText(self.tabStepSequence_3.indexOf(self.test), QCoreApplication.translate("MainWindow", u"Test", None))
         self.tabStepSequence_3.setTabText(self.tabStepSequence_3.indexOf(self.results), QCoreApplication.translate("MainWindow", u"Results", None))
+        self.lblDashboard_TBD.setText(QCoreApplication.translate("MainWindow", u"Under Construction", None))
     # retranslateUi
 

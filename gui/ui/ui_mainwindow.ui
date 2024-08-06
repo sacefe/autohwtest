@@ -154,7 +154,7 @@ QPushButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../statics/icons/icons8_menu.svg</normaloff>../statics/icons/icons8_menu.svg</iconset>
+              <normaloff>statics/icons/icons8_menu.svg</normaloff>statics/icons/icons8_menu.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -258,13 +258,13 @@ QPushButton:pressed {
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="btnToolbox">
+              <widget class="QPushButton" name="btnLogin">
                <property name="text">
                 <string/>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../statics/icons/icons8_account_1.svg</normaloff>../statics/icons/icons8_account_1.svg</iconset>
+                 <normaloff>statics/icons/icons8_account_1.svg</normaloff>statics/icons/icons8_account_1.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -275,13 +275,13 @@ QPushButton:pressed {
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnLogin">
+              <widget class="QPushButton" name="btnToolbox">
                <property name="text">
                 <string/>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../statics/icons/icons8_account_1.svg</normaloff>../statics/icons/icons8_account_1.svg</iconset>
+                 <normaloff>statics/icons/icons8_maintenance_2.svg</normaloff>statics/icons/icons8_maintenance_2.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -310,7 +310,7 @@ QPushButton:pressed {
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../statics/icons/icons8_alarm.svg</normaloff>../statics/icons/icons8_alarm.svg</iconset>
+                 <normaloff>statics/icons/icons8_alarm.svg</normaloff>statics/icons/icons8_alarm.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -378,7 +378,7 @@ QPushButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../statics/icons/icons8_minus.svg</normaloff>../statics/icons/icons8_minus.svg</iconset>
+              <normaloff>statics/icons/icons8_minus.svg</normaloff>statics/icons/icons8_minus.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -407,7 +407,7 @@ QPushButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../statics/icons/icons8_collapse_arrow_up.svg</normaloff>../statics/icons/icons8_collapse_arrow_up.svg</iconset>
+              <normaloff>statics/icons/icons8_collapse_arrow_up.svg</normaloff>statics/icons/icons8_collapse_arrow_up.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -436,7 +436,7 @@ QPushButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../statics/icons/icons8_multiply.svg</normaloff>../statics/icons/icons8_multiply.svg</iconset>
+              <normaloff>statics/icons/icons8_multiply.svg</normaloff>statics/icons/icons8_multiply.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -643,7 +643,7 @@ QPushButton:pressed {
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../statics/icons/icons8_keypad.svg</normaloff>../statics/icons/icons8_keypad.svg</iconset>
+                 <normaloff>statics/icons/icons8_keypad.svg</normaloff>statics/icons/icons8_keypad.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -654,7 +654,7 @@ QPushButton:pressed {
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnWorkorder">
+              <widget class="QPushButton" name="btnTestExecute">
                <property name="minimumSize">
                 <size>
                  <width>200</width>
@@ -695,11 +695,11 @@ QPushButton:pressed {
 </string>
                </property>
                <property name="text">
-                <string> Work Order</string>
+                <string>Test Execute</string>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../statics/icons/icons8_todo_list.svg</normaloff>../statics/icons/icons8_todo_list.svg</iconset>
+                 <normaloff>statics/icons/icons8_todo_list.svg</normaloff>statics/icons/icons8_todo_list.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -907,7 +907,7 @@ QPushButton:pressed {
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../statics/icons/icons8_logout_rounded_down.svg</normaloff>../statics/icons/icons8_logout_rounded_down.svg</iconset>
+                 <normaloff>statics/icons/icons8_logout_rounded_down.svg</normaloff>statics/icons/icons8_logout_rounded_down.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -979,7 +979,7 @@ QPushButton:pressed {
                <property name="lineWidth">
                 <number>0</number>
                </property>
-               <widget class="QWidget" name="page_5">
+               <widget class="QWidget" name="page_TestExecute">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -1592,7 +1592,7 @@ QPushButton:pressed {
                                 </property>
                                 <property name="icon">
                                  <iconset>
-                                  <normaloff>statics/icons/icons8-play-48.png</normaloff>statics/icons/icons8-play-48.png</iconset>
+                                  <normaloff>statics/icons/icons8_play_48.png</normaloff>statics/icons/icons8_play_48.png</iconset>
                                 </property>
                                 <property name="iconSize">
                                  <size>
@@ -1642,7 +1642,7 @@ QPushButton:pressed {
                                 </property>
                                 <property name="icon">
                                  <iconset>
-                                  <normaloff>statics/icons/icons8-stop-circled-48.png</normaloff>statics/icons/icons8-stop-circled-48.png</iconset>
+                                  <normaloff>statics/icons/icons8_stop_circled_48.png</normaloff>statics/icons/icons8_stop_circled_48.png</iconset>
                                 </property>
                                 <property name="iconSize">
                                  <size>
@@ -1692,7 +1692,7 @@ QPushButton:pressed {
                                 </property>
                                 <property name="icon">
                                  <iconset>
-                                  <normaloff>statics/icons/icons8-pause-button-48.png</normaloff>statics/icons/icons8-pause-button-48.png</iconset>
+                                  <normaloff>statics/icons/icons8_pause_button_48.png</normaloff>statics/icons/icons8_pause_button_48.png</iconset>
                                 </property>
                                 <property name="iconSize">
                                  <size>
@@ -1742,7 +1742,7 @@ QPushButton:pressed {
                                 </property>
                                 <property name="icon">
                                  <iconset>
-                                  <normaloff>statics/icons/icons8-step-into-48.png</normaloff>statics/icons/icons8-step-into-48.png</iconset>
+                                  <normaloff>statics/icons/icons8_step_into_48.png</normaloff>statics/icons/icons8_step_into_48.png</iconset>
                                 </property>
                                 <property name="iconSize">
                                  <size>
@@ -1792,7 +1792,7 @@ QPushButton:pressed {
                                 </property>
                                 <property name="icon">
                                  <iconset>
-                                  <normaloff>statics/icons/icons8-step-over-48.png</normaloff>statics/icons/icons8-step-over-48.png</iconset>
+                                  <normaloff>statics/icons/icons8_step_over_48.png</normaloff>statics/icons/icons8_step_over_48.png</iconset>
                                 </property>
                                 <property name="iconSize">
                                  <size>
@@ -1842,7 +1842,7 @@ QPushButton:pressed {
                                 </property>
                                 <property name="icon">
                                  <iconset>
-                                  <normaloff>statics/icons/icons8-step-out-48.png</normaloff>statics/icons/icons8-step-out-48.png</iconset>
+                                  <normaloff>statics/icons/icons8_step_out_48.png</normaloff>statics/icons/icons8_step_out_48.png</iconset>
                                 </property>
                                 <property name="iconSize">
                                  <size>
@@ -2031,7 +2031,43 @@ QPushButton:pressed {
                  </item>
                 </layout>
                </widget>
-               <widget class="QWidget" name="page_6"/>
+               <widget class="QWidget" name="page_DashBoard">
+                <widget class="QFrame" name="frame_3">
+                 <property name="geometry">
+                  <rect>
+                   <x>170</x>
+                   <y>240</y>
+                   <width>291</width>
+                   <height>37</height>
+                  </rect>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::Shape::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Shadow::Raised</enum>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_15">
+                  <item>
+                   <widget class="QLabel" name="lblDashboard_TBD">
+                    <property name="minimumSize">
+                     <size>
+                      <width>34</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(52, 101, 164);
+font: 700 italic 20pt &quot;Ubuntu Mono&quot;;</string>
+                    </property>
+                    <property name="text">
+                     <string>Under Construction</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </widget>
                <widget class="QWidget" name="page_7"/>
                <widget class="QWidget" name="page_8"/>
               </widget>

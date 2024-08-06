@@ -26,10 +26,10 @@ import rc_resources
 from typing import Optional
 import os
 STATICS_DIR = (os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    os.path.dirname(os.path.abspath(__file__)),
     "statics"))
 ICONS_DIR = (os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    os.path.dirname(os.path.abspath(__file__)),
     "statics",
     "icons"))
 
@@ -45,6 +45,7 @@ class Ui_MainWindow(object):
         # ICONS Dynamic location
         self.icons8_menu = os.path.join(self.icons_dir, "icons8_menu.svg")
         self.icons8_account_1 = os.path.join(self.icons_dir, "icons8_account_1.svg")
+        self.icons8_maintenance_2 = os.path.join(self.icons_dir, "icons8_maintenance_2.svg")
         self.icons8_alarm = os.path.join(self.icons_dir, "icons8_alarm.svg")
         self.icons8_minus = os.path.join(self.icons_dir, "icons8_minus.svg")
         self.icons8_collapse_arrow_up = os.path.join(self.icons_dir, "icons8_collapse_arrow_up.svg")
@@ -52,12 +53,12 @@ class Ui_MainWindow(object):
         self.icons8_keypad = os.path.join(self.icons_dir, "icons8_keypad.svg")
         self.icons8_todo_list = os.path.join(self.icons_dir, "icons8_todo_list.svg")
         self.icons8_logout_rounded_down = os.path.join(self.icons_dir, "icons8_logout_rounded_down.svg")
-        self.icons8_play_48 = os.path.join(self.icons_dir, "icons8-play-48.png")
-        self.icons8_stop_circled_48 = os.path.join(self.icons_dir, "icons8-stop-circled-48.png")
-        self.icons8_pause_button_48 = os.path.join(self.icons_dir, "icons8-pause-button-48.png")
-        self.icons8_step_into_48 = os.path.join(self.icons_dir, "icons8-step-into-48.png")
-        self.icons8_step_over_48 = os.path.join(self.icons_dir, "icons8-step-over-48.png")
-        self.icons8_step_out_48 = os.path.join(self.icons_dir, "icons8-step-out-48.png")
+        self.icons8_play_48 = os.path.join(self.icons_dir, "icons8_play_48.png")
+        self.icons8_stop_circled_48 = os.path.join(self.icons_dir, "icons8_stop_circled_48.png")
+        self.icons8_pause_button_48 = os.path.join(self.icons_dir, "icons8_pause_button_48.png")
+        self.icons8_step_into_48 = os.path.join(self.icons_dir, "icons8_step_into_48.png")
+        self.icons8_step_over_48 = os.path.join(self.icons_dir, "icons8_step_over_48.png")
+        self.icons8_step_out_48 = os.path.join(self.icons_dir, "icons8_step_out_48.png")
     # TODO modify for each icon
     #    from : u"../statics/icons/icons8_account_1.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
     # TODO

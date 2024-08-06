@@ -31,8 +31,8 @@
         <file>statics/icons/icons8_multiply.svg</file>
         <file>statics/icons/icons8_numbered_list.svg</file>
         <file>statics/icons/icons8_opened_folder.svg</file>
-        <file>statics/icons/icons8-pause-button-48.png</file>
-        <file>statics/icons/icons8-play-48.png</file>
+        <file>statics/icons/icons8_pause_button_48.png</file>
+        <file>statics/icons/icons8_play_48.png</file>
         <file>statics/icons/icons8_plus_math.svg</file>
         <file>statics/icons/icons8_receipt.svg</file>
         <file>statics/icons/icons8_save.svg</file>
@@ -41,10 +41,10 @@
         <file>statics/icons/icons8_separate_document_1.svg</file>
         <file>statics/icons/icons8_shopping_cart.svg</file>
         <file>statics/icons/icons8_slow_download_32px.png</file>
-        <file>statics/icons/icons8-step-into-48.png</file>
-        <file>statics/icons/icons8-step-out-48.png</file>
-        <file>statics/icons/icons8-step-over-48.png</file>
-        <file>statics/icons/icons8-stop-circled-48.png</file>
+        <file>statics/icons/icons8_step_into_48.png</file>
+        <file>statics/icons/icons8_step_out_48.png</file>
+        <file>statics/icons/icons8_step_over_48.png</file>
+        <file>statics/icons/icons8_stop_circled_48.png</file>
         <file>statics/icons/icons8_todo_list.svg</file>
         <file>statics/icons/icons8_update_left_rotation.svg</file>
         <file>statics/icons/icons8_walkie_talkie.svg</file>
