@@ -10,7 +10,9 @@ from loader_data import LoaderData
 from loader_widgets import LoaderWidgets
 from tester import Tester
 from dashboard import Dashboard
-from login import LoginDialog
+from login_dlg import LoginDialog
+from serial_dlg import SerialDialog
+from auth import Auth
 from utils import PageNames
 
 coloredlogs.install(level="INFO")
@@ -19,6 +21,8 @@ STATICS_DIR = (os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
     "static"))
 BASE_DIR = (os.path.dirname(os.path.abspath(__file__)))
+
+# TODO add in progress during test and current SN in the header
 
 
 class SequenceUI(QMainWindow):
@@ -35,13 +39,17 @@ class SequenceUI(QMainWindow):
         # set logger
         self.__logger = logging.getLogger(self.__class__.__name__)
         self.__logger.setLevel(loglevel)
-        # Remove default frame
+        # default frame
         flags = Qt.WindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         self.__pos = self.pos()
         self.setWindowFlags(flags)
         self.__activate_toolbar()
         self.__activate_side_nav()
         self.__activate_tst_seq()
+        self.ui.treeSequence.setStyleSheet('color: rgb(154, 154, 149)')
+        self.ui.treeSequence.headerItem().setText(0, "SEQUENCE")
+        self.ui.treeExecuted.setStyleSheet('color: rgb(154, 154, 149)')
+        self.ui.treeExecuted.headerItem().setText(0, "TEST  HISTORY")
         # app self vars
         self.ld_data = LoaderData(
             station_fp=station_fp,
@@ -51,6 +59,7 @@ class SequenceUI(QMainWindow):
         self.page_name = PageNames.testExecute.value
         self.lw = LoaderWidgets()
         self.testplans_dir = testplan_dir
+        self.username = ""
         self.testplan_fp = ""
         self.test_exec_fp = ""
         self.station = {}
@@ -58,9 +67,11 @@ class SequenceUI(QMainWindow):
         self.testplan = []
         self.test_results = []
         self.part_numbers = []
-        self.load_station()
-        self.load_part_numbers()
+        self.serial_numbers = []
+        self.current_sn = ""
+        self.serial_numbers = []
         self.ui.Body.setEnabled(False)
+        self.login = False
 
     """
     beginning of UI code section
@@ -87,6 +98,7 @@ class SequenceUI(QMainWindow):
     def __activate_side_nav(self):
         self.ui.btnDashboard.clicked.connect(self.__dashboard)
         self.ui.btnTestExecute.clicked.connect(self.__execute_test)
+        self.ui.btnSignout.clicked.connect(self.__sign_out)
 
     def __activate_tst_seq(self):
         self.ui.btnRun.clicked.connect(self.__run_sequence)
@@ -123,19 +135,48 @@ class SequenceUI(QMainWindow):
     def __alarm(self):
         self.__logger.info("alarms TBD")
 
-    # TODO
     def __login(self):
         dlg_login = LoginDialog(self)
         # ui = dlg_login. .Ui_Dialog()
+        auth = Auth()
         if dlg_login.exec():
-            if dlg_login.user.text().lower() == "test" and \
-                    dlg_login.password.text().lower() == "password":
+            dlg_user = dlg_login.user.text().lower()
+            dlg_password = dlg_login.password.text().lower()
+            if auth.user_verification(dlg_user, dlg_password):
+# d            if dlg_login.user.text().lower() == "tester" and \
+# d                dlg_login.password.text().lower() == "password":
+                self.username= dlg_user
                 self.ui.Body.setEnabled(True)
-            self.__logger.info(f"Success! user is: {dlg_login.user.text()} "
-                               f"password is: {dlg_login.password.text()}")
+                self.login = True
+                self.load_station()
+                self.load_part_numbers()
+            self.__logger.info(f"Success! user is: {dlg_login.user.text()} ")
+# d                               f"password is: {dlg_login.password.text()}")
             self.__logger.info("Success!")
         else:
             self.__logger.info("Cancel!")
+
+    def __sign_out(self):
+        self.ui.Body.setEnabled(False)
+        self.login = False
+
+    def __serial_number_dlg(self):
+        # Scan/Type Serial number
+        dlg_serial = SerialDialog(self)
+        if dlg_serial.exec():
+            self.__logger.info(f"Success! serial is: {dlg_serial.serial.text()} ")
+            if dlg_serial.serial.text() != "":
+                # TODO  Validate S/N (if possible)
+                self.current_sn = dlg_serial.serial.text()
+                self.serial_numbers.append(self.current_sn)
+                self.lw.tree_test_history_update(
+                    self.ui.treeExecuted, self.serial_numbers[-1],
+                    len(self.serial_numbers) - 1
+                )
+                return True
+        else:
+            self.__logger.info("Cancel SN!")
+        return False
 
     # TODO
     def __toolbox(self):
@@ -158,23 +199,25 @@ class SequenceUI(QMainWindow):
         """
         if self.testplan_name != "" and self.testplan != []:
             try:
-                tester_obj = Tester(
-                    testplan_name=self.testplan_name,
-                    testplans_dir=self.testplans_dir,
-                    testplan=self.testplan)
-
-                table = self.ui.tableTest
-                sequence = tester_obj.get_sequence()
-                for i, testcase in enumerate(sequence):
-                    # QTimer.singleShot(1000, self.__run_sequence)
-                    updated_test_result = tester_obj.run_testcase_sequence([testcase])
-                    tr = self.ld_data.update_test_exec(i, self.test_results, updated_test_result)
-                    self.test_results = tr
-                    self.update_test_exec_table()
-                    self.__logger.info(f"Run Sequence results: {self.test_results}")
-                    table.selectRow(i)
-                    table.viewport().setFocus()
-                    table.viewport().update()
+                # Scan/Type Serial number
+                if self.__serial_number_dlg():
+                    self.__logger.info(f"testing serial number {self.current_sn}")
+                    # execute Test cases sequence
+                    tester_fix = self.tester_fixture()
+                    table = self.ui.tableTest
+                    sequence = tester_fix.get_sequence()
+                    for i, testcase in enumerate(sequence):
+                        # QTimer.singleShot(1000, self.__run_sequence)
+                        updated_test_result = tester_fix.run_testcase_sequence([testcase])
+                        tr = self.ld_data.update_test_exec(i, self.test_results, updated_test_result)
+                        self.test_results = tr
+                        self.update_test_exec_table()
+                        self.__logger.info(f"Run Sequence results: {self.test_results}")
+                        table.selectRow(i)
+                        table.viewport().setFocus()
+                        table.viewport().update()
+                else:
+                    self.__logger.info(f"No serial number selected")
             except BaseException as e:
                 self.__logger.error(f"an exception occurred during the <__run_sequence>: {e}")
 
@@ -200,27 +243,31 @@ class SequenceUI(QMainWindow):
     def __pause_sequence(self):
         self.__logger.info("Pause Sequence TBD")
 
-    # TODO  load sequence when tesplan is loaded or individually each time (save memory)
+
     def __step_into_sequence(self):
         """
         run one test case already selected in the table
+        Tester object is created and destroyed here, so we have better control
+        of the initial testplan content, name and directory, if we created initially will
+        require to send this attributes in each method.
         @return:
         """
         if self.testplan_name != "" and self.testplan != []:
             try:
-                tester_obj = Tester(
-                    testplan_name=self.testplan_name,
-                    testplans_dir=self.testplans_dir,
-                    testplan=self.testplan)
-
+                if self.current_sn == "":
+                    if not self.__serial_number_dlg():
+                        self.__logger.info(f"No serial number selected")
+                        return
+                self.__logger.info(f"testing serial number {self.current_sn}")
+                tester_fix = self.tester_fixture()
                 table = self.ui.tableTest
                 row = table.currentRow()
                 table.setFocus()
                 if row == -1:
                     table.selectRow(0)
                 row = table.currentRow()
-                testcase = tester_obj.get_testcase(row)
-                updated_test_result = tester_obj.run_testcase_sequence(testcase)
+                testcase = tester_fix.get_testcase(row)
+                updated_test_result = tester_fix.run_testcase_sequence(testcase)
                 tr = self.ld_data.update_test_exec(row, self.test_results, updated_test_result)
                 self.test_results = tr
                 self.update_test_exec_table()
@@ -245,6 +292,13 @@ class SequenceUI(QMainWindow):
     beginning of App code section
     #####################################
     """
+
+    def tester_fixture(self):
+        return Tester(
+            testplan_name=self.testplan_name,
+            testplans_dir=self.testplans_dir,
+            testplan=self.testplan
+       )
 
     def load_testplan_table(self):
         try:
@@ -278,16 +332,18 @@ class SequenceUI(QMainWindow):
         stations, column_names = self.ld_data.get_station_info()
         self.station = stations[0]
         label = self.ui.lblStation
-        label.setText(self.station['NAME'])
+        label.setText(self.station['name'])  # TODO  no mame must be arguments
 
     def load_part_numbers(self):
         self.part_numbers, column_names = self.ld_data.get_part_numbers()
         cb_pn = self.ui.comboBoxProducts
         cb_pn.clear()
-        cb_pn.addItems(pn[0] for pn in self.part_numbers)
+        cb_pn.setWindowTitle("Part Numbers")
+        # cb_pn.addItems(pn[1] for pn in self.part_numbers)
+        cb_pn.addItems(self.part_numbers)
         cb_pn.currentIndexChanged.connect(self.cm_products_index_changed)
         cb_pn.currentTextChanged.connect(self.cm_products_text_changed)
-        testplan_fp_abs = self.part_numbers[0][1]
+        testplan_fp_abs = self.part_numbers[0]
         self.testplan_fp = (os.path.join(
             self.testplans_dir,
             testplan_fp_abs))
