@@ -56,6 +56,36 @@ class LoaderWidgets:
         except BaseException as e:
             self.__logger.error(f"an exception occurred during the <load_testplan>: {e}")
 
+    def combobox_loader(self, cbox: QComboBox, cbox_data, cbox_column_names):
+        # define model
+        cols = len(cbox_data[0])
+        model = QStandardItemModel(0, cols)
+        for i in range(cols):
+            model.setHorizontalHeaderItem(i, QStandardItem(cbox_column_names[i]))
+        for row_line in cbox_data:
+            items = []
+            for col_value in row_line:
+                it = QStandardItem(str(col_value))
+                items.append(it)
+            model.appendRow(items)
+        cbox.setModel(model)
+        # define  view
+        view = QTableView(
+            cbox, selectionBehavior=QAbstractItemView.SelectRows
+        )
+        # Column wit=dth did not work
+        view.verticalHeader().setVisible(False)
+        view.setColumnWidth(0, 4)
+        view.setColumnWidth(1, 10)
+        view.setColumnWidth(2, 10)
+        view.resizeColumnsToContents()
+        # set scroll bar did not work
+        view.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        view.horizontalScrollBar().setVisible(True)
+        # set view
+        cbox.setModelColumn(1)  # show column one first
+        cbox.setView(view)
+
 
 class StyledItemDelegate(QtWidgets.QStyledItemDelegate):
     def initStyleOption(self, option, index):

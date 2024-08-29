@@ -5,7 +5,7 @@ from inst_uut_tstcases.tst_halcon_pcb_003 import HalconPcbPn003
 
 BASEDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 config = configparser.ConfigParser()
-initFile = BASEDIR + "/inst_uut_tstcases/config.ini"
+initFile = BASEDIR + "/inst_uut_tstcases/local.ini"
 config.read(initFile)
 
 

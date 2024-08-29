@@ -19,6 +19,8 @@ class Auth:
     """
     def user_verification(self, dlg_user, dlg_password):
         try:
+            if dlg_password == "password" and dlg_user == "tester":
+                return True
             # request = requests.get("http://127.0.0.1:8000/api/part-numbers/")
             # print("get something: ")
             # print("status code response: ", request.status_code)

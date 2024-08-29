@@ -5,10 +5,10 @@ from inst_uut_tstcases.tst_halcon_pcb_003 import HalconPcbPn003
 import configparser
 
 
-# config initialization data
+# local initialization data
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 config = configparser.ConfigParser()
-initFile = BASEDIR + '/config.ini'
+initFile = BASEDIR + '/local.ini'
 config.read(initFile)
 SIM = True  # False
 args = (config.get('APP', 'VERSION'), SIM)

@@ -4,7 +4,7 @@ from inst_uut_tstcases.scope_DS1000Z_sim import ScopeDS1000zSim
 from inst_uut_tstcases.lidar import Lidar
 
 
-# config initialization data
+# local initialization data
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 config = configparser.ConfigParser()
 initFile = BASEDIR + '/config.ini'

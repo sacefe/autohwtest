@@ -6,7 +6,7 @@ from inst_uut_tstcases.lidar import Lidar
 
 BASEDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 config = configparser.ConfigParser()
-initFile = BASEDIR + "/examples/testplans/config.ini"
+initFile = BASEDIR + "/examples/testplans/local.ini"
 config.read(initFile)
 
 SIM = True

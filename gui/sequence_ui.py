@@ -6,7 +6,7 @@ from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from ui.ui_mainwindow import Ui_MainWindow
 from typing import Optional
-from loader_data import LoaderData
+from loader_transform_data import LoaderTransformData
 from loader_widgets import LoaderWidgets
 from tester import Tester
 from dashboard import Dashboard
@@ -22,15 +22,18 @@ STATICS_DIR = (os.path.join(
     "static"))
 BASE_DIR = (os.path.dirname(os.path.abspath(__file__)))
 
+
 # TODO add in progress during test and current SN in the header
 
 
 class SequenceUI(QMainWindow):
 
     def __init__(self,
-                 testplan_dir,
-                 station_fp: Optional[str] = "config/station.csv",
-                 part_numbers_fp: Optional[str] = "config/part_numbers.csv",
+                 config_file,
+                 testplan_dir="testplans",
+                 station_fp: Optional[str] = "local/station.csv",
+                 part_numbers_fp: Optional[str] = "local/part_numbers.csv",
+                 test_matrix_fp: Optional[str] = "local/test_matrix.csv",
                  loglevel: Optional[callable] = logging.INFO
                  ):
         super(SequenceUI, self).__init__()
@@ -51,25 +54,32 @@ class SequenceUI(QMainWindow):
         self.ui.treeExecuted.setStyleSheet('color: rgb(154, 154, 149)')
         self.ui.treeExecuted.headerItem().setText(0, "TEST  HISTORY")
         # app self vars
-        self.ld_data = LoaderData(
+        #        station_fp = (os.path.join(  # TODO male load local class
+        #            config_file.get('DIR', 'LOCAL_DIR'),
+        #            config_file.get('LOCAL_FILES', 'PART_NUMBERS')))
+        self.lt_data = LoaderTransformData(
             station_fp=station_fp,
             part_numbers_fp=part_numbers_fp,
+            test_matrix_fp=test_matrix_fp
         )
+        self.l_widget = LoaderWidgets()
         self.dashboard = Dashboard(self.ui)
         self.page_name = PageNames.testExecute.value
-        self.lw = LoaderWidgets()
-        self.testplans_dir = testplan_dir
+        self.testplans_dir = config_file.get('DIR', 'TESTPLAN_DIR')  # TODO male load local class
         self.username = ""
         self.testplan_fp = ""
         self.test_exec_fp = ""
         self.station = {}
-        self.testplan_name = ""
+        self.station_name = config_file.get('STATION', 'NAME')  # TODO male load local class
+        self.test_matrix = []
         self.testplan = []
+        self.testplan_name = ""
         self.test_results = []
         self.part_numbers = []
+        self.part_number_column_names = []
+        self.part_number_selected = {}
         self.serial_numbers = []
         self.current_sn = ""
-        self.serial_numbers = []
         self.ui.Body.setEnabled(False)
         self.login = False
 
@@ -143,15 +153,15 @@ class SequenceUI(QMainWindow):
             dlg_user = dlg_login.user.text().lower()
             dlg_password = dlg_login.password.text().lower()
             if auth.user_verification(dlg_user, dlg_password):
-# d            if dlg_login.user.text().lower() == "tester" and \
-# d                dlg_login.password.text().lower() == "password":
-                self.username= dlg_user
+                self.username = dlg_user
                 self.ui.Body.setEnabled(True)
                 self.login = True
                 self.load_station()
-                self.load_part_numbers()
+                if self.station:
+                    self.load_part_numbers()
+                if self.part_numbers:
+                    self.load_test_matrix()
             self.__logger.info(f"Success! user is: {dlg_login.user.text()} ")
-# d                               f"password is: {dlg_login.password.text()}")
             self.__logger.info("Success!")
         else:
             self.__logger.info("Cancel!")
@@ -169,7 +179,7 @@ class SequenceUI(QMainWindow):
                 # TODO  Validate S/N (if possible)
                 self.current_sn = dlg_serial.serial.text()
                 self.serial_numbers.append(self.current_sn)
-                self.lw.tree_test_history_update(
+                self.l_widget.tree_test_history_update(
                     self.ui.treeExecuted, self.serial_numbers[-1],
                     len(self.serial_numbers) - 1
                 )
@@ -243,7 +253,6 @@ class SequenceUI(QMainWindow):
     def __pause_sequence(self):
         self.__logger.info("Pause Sequence TBD")
 
-
     def __step_into_sequence(self):
         """
         run one test case already selected in the table
@@ -268,7 +277,7 @@ class SequenceUI(QMainWindow):
                 row = table.currentRow()
                 testcase = tester_fix.get_testcase(row)
                 updated_test_result = tester_fix.run_testcase_sequence(testcase)
-                tr = self.ld_data.update_test_exec(row, self.test_results, updated_test_result)
+                tr = self.lt_data.update_test_exec(row, self.test_results, updated_test_result)
                 self.test_results = tr
                 self.update_test_exec_table()
                 row += 1
@@ -298,15 +307,15 @@ class SequenceUI(QMainWindow):
             testplan_name=self.testplan_name,
             testplans_dir=self.testplans_dir,
             testplan=self.testplan
-       )
+        )
 
     def load_testplan_table(self):
         try:
             table = self.ui.tableSequence
             table.clear()
             self.testplan = []
-            self.testplan, column_names = self.ld_data.get_testplan(self.testplan_fp)
-            self.lw.table_loader(table, self.testplan, column_names)
+            self.testplan, column_names = self.lt_data.get_testplan(self.testplan_fp)
+            self.l_widget.table_loader(table, self.testplan, column_names)
         except BaseException as e:
             self.__logger.error(f"an exception occurred during the <load_testplan_table>: {e}")
 
@@ -314,8 +323,8 @@ class SequenceUI(QMainWindow):
         try:
             table = self.ui.tableTest
             table.clear()
-            self.test_results, column_names = self.ld_data.get_test_exec(self.test_exec_fp)
-            self.lw.table_loader(table, self.test_results, column_names)
+            self.test_results, column_names = self.lt_data.get_test_exec(self.test_exec_fp)
+            self.l_widget.table_loader(table, self.test_results, column_names)
         except BaseException as e:
             self.__logger.error(f"an exception occurred during the <load_test_exec_table>: {e}")
 
@@ -324,43 +333,78 @@ class SequenceUI(QMainWindow):
             table = self.ui.tableTest
             table.clear()
             column_names = list(self.test_results[0].keys())
-            self.lw.table_loader(table, self.test_results, column_names)
+            self.l_widget.table_loader(table, self.test_results, column_names)
         except BaseException as e:
             self.__logger.error(f"an exception occurred during the <load_test_exec_table>: {e}")
 
     def load_station(self):
-        stations, column_names = self.ld_data.get_station_info()
-        self.station = stations[0]
-        label = self.ui.lblStation
-        label.setText(self.station['name'])  # TODO  no mame must be arguments
+        try:
+            station_data, column_names = self.lt_data.get_station_data(self.station_name)
+            self.station = station_data
+            label = self.ui.lblStation
+            label.setText(self.station_name)
+        except BaseException as e:
+            self.__logger.error(f"an exception occurred during the <load_station>: {e}")
+            return False
+
+    def load_test_matrix(self):
+        try:  # TODO make API call   uncomment below lines
+            self.test_matrix, column_names = self.lt_data.get_test_matrix()
+            if self.test_matrix:
+            #     return True
+
+                testplan_fp_abs = self.part_numbers[1]
+                self.testplan_fp = (os.path.join(
+                    self.testplans_dir,
+                    testplan_fp_abs))
+                self.testplan_name = os.path.splitext(testplan_fp_abs)[0]  # TODO AQUI
+                self.l_widget.tree_seq_update(self.ui.treeSequence,
+                                        self.testplan_name)
+                self.test_exec_fp = self.testplan_fp  # TODO perhaps a different file for results vs Testplan?
+                self.load_testplan_table()
+                self.load_test_exec_table()
+
+            return True
+        except BaseException as e:
+            self.__logger.error(f"an exception occurred during the <load_test_matrix>: {e}")
+            return False
 
     def load_part_numbers(self):
-        self.part_numbers, column_names = self.ld_data.get_part_numbers()
-        cb_pn = self.ui.comboBoxProducts
-        cb_pn.clear()
-        cb_pn.setWindowTitle("Part Numbers")
-        # cb_pn.addItems(pn[1] for pn in self.part_numbers)
-        cb_pn.addItems(self.part_numbers)
-        cb_pn.currentIndexChanged.connect(self.cm_products_index_changed)
-        cb_pn.currentTextChanged.connect(self.cm_products_text_changed)
-        testplan_fp_abs = self.part_numbers[0]
-        self.testplan_fp = (os.path.join(
-            self.testplans_dir,
-            testplan_fp_abs))
-        self.testplan_name = os.path.splitext(testplan_fp_abs)[0]
-        self.lw.tree_seq_update(self.ui.treeSequence,
-                                self.testplan_name)
-        self.test_exec_fp = self.testplan_fp  # TODO perhaps a different file for results vs Testplan?
-        self.load_testplan_table()
-        self.load_test_exec_table()
+        try:
+            self.part_numbers, self.part_number_column_names = self.lt_data.get_part_numbers()
+            if self.part_numbers:
+                cbox_pn = self.ui.comboBoxProducts
+                cbox_pn.clear()
+                part_numbers_list = [[x[key] for key in self.part_number_column_names] for x in self.part_numbers]
+                self.l_widget.combobox_loader(cbox_pn, part_numbers_list, self.part_number_column_names)
+                cbox_pn.currentIndexChanged.connect(self.cm_products_index_changed)
+                cbox_pn.currentTextChanged.connect(self.cm_products_text_changed)
+                self.part_number_selected = self.part_numbers[0]  # First dict element
+                # TODO AQUI
+                #delete                testplan_fp_abs = self.part_numbers[1]
+                #                self.testplan_fp = (os.path.join(
+                #                    self.testplans_dir,
+                #                    testplan_fp_abs))
+                #                self.testplan_name = os.path.splitext(testplan_fp_abs)[0]
+                #                self.l_widget.tree_seq_update(self.ui.treeSequence,
+                #                                        self.testplan_name)
+                #                self.test_exec_fp = self.testplan_fp  # TODO perhaps a different file for results vs Testplan?
+                #                self.load_testplan_table()
+                #                self.load_test_exec_table()
+                return True
+            return False
+        except BaseException as e:
+            self.__logger.error(f"an exception occurred during the <load_part_numbers>: {e}")
+            return False
 
     def cm_products_index_changed(self, i):
-        testplan_fp_abs = self.part_numbers[i][1]
+        self.part_number_selected = self.part_numbers[i]
+        testplan_fp_abs = self.part_number_selected  # TODO AQUI why [0]
         self.testplan_fp = (os.path.join(
             self.testplans_dir,
             testplan_fp_abs))
         self.testplan_name = os.path.splitext(testplan_fp_abs)[0]
-        self.lw.tree_seq_update(self.ui.treeSequence,
+        self.l_widget.tree_seq_update(self.ui.treeSequence,
                                 self.testplan_name)
         self.test_exec_fp = self.testplan_fp  # TODO perhaps a different file for results vs Testplan?
         self.load_testplan_table()
@@ -374,8 +418,8 @@ class SequenceUI(QMainWindow):
 #     app = QApplication(sys.argv)
 #     window = SequenceUI(
 #         testplan_dir="/home/demo/sacode/autohwtest/examples/testplans",
-#         station_fp="/home/demo/sacode/autohwtest/examples/config/station.csv",
-#         part_numbers_fp="/home/demo/sacode/autohwtest/examples/config/part_numbers.csv",
+#         station_fp="/home/demo/sacode/autohwtest/examples/local/station.csv",
+#         part_numbers_fp="/home/demo/sacode/autohwtest/examples/local/part_numbers.csv",
 #     )
 #     window.show()
 #     sys.exit(app.exec())

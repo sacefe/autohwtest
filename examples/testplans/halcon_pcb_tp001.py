@@ -158,7 +158,7 @@ class ScopeDS1000zMeasPeriod(Test):
             self.scope.close_resource()
 
 
-# config initialization data
+# local initialization data
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 config = configparser.ConfigParser()
 initFile = BASEDIR + '/config.ini'
